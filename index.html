@@ -217,30 +217,35 @@
   <style>body { box-sizing: border-box; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
- <body class="h-full overflow-auto bg-gradient-to-br from-purple-400 via-pink-300 to-blue-400"><!-- Floating Emojis Background -->
+ <body class="h-full overflow-auto bg-gradient-to-br from-purple-400 via-pink-300 to-blue-400">
+  <!-- Floating Emojis Background -->
   <div id="floating-emojis" class="fixed inset-0 pointer-events-none overflow-hidden z-0"></div><!-- LOGIN SCREEN -->
   <div id="login-screen" class="min-h-full flex items-center justify-center p-4 relative z-10">
-   <div class="glass-effect rounded-3xl p-8 md:p-12 max-w-md w-full shadow-2xl slide-in-animation"><!-- School Logo/Title -->
+   <div class="glass-effect rounded-3xl p-8 md:p-12 max-w-md w-full shadow-2xl slide-in-animation">
+    <!-- School Logo/Title -->
     <div class="text-center mb-8">
      <div class="text-6xl mb-4 bounce-animation">
       🏫
      </div>
      <h1 class="text-2xl md:text-3xl font-bold text-purple-700 leading-tight">ESCUELA PRIMARIA<br>
-      VENUSTIANO CARRANZA</h1>
+       VENUSTIANO CARRANZA</h1>
      <p class="text-purple-500 font-medium mt-1">26DPR1320W</p>
      <div class="rainbow-border h-1 rounded-full my-4"></div>
      <h2 class="text-xl md:text-2xl font-bold text-pink-600 flex items-center justify-center gap-2"><span class="wiggle-animation inline-block">✨</span> MI AULA INTERACTIVA <span class="wiggle-animation inline-block" style="animation-delay: 0.5s;">✨</span></h2>
     </div><!-- Login Form -->
     <form id="login-form" class="space-y-4">
-     <div><label class="block text-purple-700 font-semibold mb-2 text-sm">👤 Usuario</label> <input type="text" id="username" placeholder="Ingresa tu usuario" class="w-full px-4 py-3 rounded-xl border-2 border-purple-200 focus:border-purple-500 text-lg transition-all">
+     <div>
+      <label class="block text-purple-700 font-semibold mb-2 text-sm">👤 Usuario</label> <input type="text" id="username" placeholder="Ingresa tu usuario" class="w-full px-4 py-3 rounded-xl border-2 border-purple-200 focus:border-purple-500 text-lg transition-all">
      </div>
-     <div><label class="block text-purple-700 font-semibold mb-2 text-sm">🔒 Contraseña</label> <input type="password" id="password" placeholder="Ingresa tu contraseña" class="w-full px-4 py-3 rounded-xl border-2 border-purple-200 focus:border-purple-500 text-lg transition-all">
+     <div>
+      <label class="block text-purple-700 font-semibold mb-2 text-sm">🔒 Contraseña</label> <input type="password" id="password" placeholder="Ingresa tu contraseña" class="w-full px-4 py-3 rounded-xl border-2 border-purple-200 focus:border-purple-500 text-lg transition-all">
      </div>
      <div id="login-error" class="hidden text-red-500 text-center text-sm bg-red-50 p-2 rounded-lg">
       ❌ Usuario o contraseña incorrectos
      </div><button type="submit" class="w-full btn-3d bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-4 rounded-xl text-lg hover:from-purple-600 hover:to-pink-600"> 🚀 ¡ENTRAR A APRENDER! </button>
     </form><!-- Terms Link -->
-    <div class="mt-6 text-center"><button onclick="showTerms()" class="text-purple-600 hover:text-purple-800 underline text-sm font-medium"> 📋 Ver Términos y Condiciones </button>
+    <div class="mt-6 text-center">
+     <button onclick="showTerms()" class="text-purple-600 hover:text-purple-800 underline text-sm font-medium"> 📋 Ver Términos y Condiciones </button>
     </div><!-- Credits -->
     <div class="mt-4 text-center text-xs text-gray-500">
      <p>Material creado por</p>
@@ -284,113 +289,144 @@
       <p>Todo el material contenido en esta plataforma es propiedad intelectual de la <strong>Maestra María Fernanda Flores Valenzuela</strong> y está protegido por las leyes de derechos de autor vigentes.</p>
      </div>
     </div>
-    <div class="mt-6 flex gap-3"><button onclick="acceptTerms()" class="flex-1 btn-3d bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2"> ✓ Acepto </button> <button onclick="hideTerms()" class="flex-1 btn-3d bg-gradient-to-r from-red-400 to-red-500 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2"> ✕ Cerrar </button>
+    <div class="mt-6 flex gap-3">
+     <button onclick="acceptTerms()" class="flex-1 btn-3d bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2"> ✓ Acepto </button> <button onclick="hideTerms()" class="flex-1 btn-3d bg-gradient-to-r from-red-400 to-red-500 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2"> ✕ Cerrar </button>
     </div>
    </div>
   </div><!-- MAIN DASHBOARD -->
-  <div id="dashboard-screen" class="hidden min-h-full relative z-10"><!-- Top Bar -->
+  <div id="dashboard-screen" class="hidden min-h-full relative z-10">
+   <!-- Top Bar -->
    <div class="glass-effect sticky top-0 z-40 p-3 md:p-4 shadow-lg">
-    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3"><!-- Logo -->
-     <div class="flex items-center gap-2"><span class="text-3xl bounce-animation">🏫</span>
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
+     <!-- Logo -->
+     <div class="flex items-center gap-2">
+      <span class="text-3xl bounce-animation">🏫</span>
       <div>
        <h1 class="text-sm md:text-base font-bold text-purple-700 leading-tight">ESC. PRIM. VENUSTIANO CARRANZA</h1>
        <p class="text-xs text-pink-600 font-medium">Mi Aula Interactiva ✨</p>
       </div>
      </div><!-- Stats Bar -->
-     <div class="flex items-center gap-3 md:gap-6"><!-- Lives -->
-      <div class="flex items-center gap-1 bg-white/80 px-3 py-1 rounded-full shadow"><span id="lives-display" class="flex text-xl"> <span class="heart-beat-animation heart-full">❤️</span> <span class="heart-beat-animation heart-full" style="animation-delay:0.1s">❤️</span> <span class="heart-beat-animation heart-full" style="animation-delay:0.2s">❤️</span> <span class="heart-beat-animation heart-full" style="animation-delay:0.3s">❤️</span> <span class="heart-beat-animation heart-full" style="animation-delay:0.4s">❤️</span> </span>
+     <div class="flex items-center gap-3 md:gap-6">
+      <!-- Lives -->
+      <div class="flex items-center gap-1 bg-white/80 px-3 py-1 rounded-full shadow">
+       <span id="lives-display" class="flex text-xl"> <span class="heart-beat-animation heart-full">❤️</span> <span class="heart-beat-animation heart-full" style="animation-delay:0.1s">❤️</span> <span class="heart-beat-animation heart-full" style="animation-delay:0.2s">❤️</span> <span class="heart-beat-animation heart-full" style="animation-delay:0.3s">❤️</span> <span class="heart-beat-animation heart-full" style="animation-delay:0.4s">❤️</span> </span>
       </div><!-- Stars -->
-      <div class="flex items-center gap-1 bg-yellow-100 px-3 py-1 rounded-full shadow"><span class="text-xl sparkle-animation">⭐</span> <span id="stars-count" class="font-bold text-yellow-700">0</span>
+      <div class="flex items-center gap-1 bg-yellow-100 px-3 py-1 rounded-full shadow">
+       <span class="text-xl sparkle-animation">⭐</span> <span id="stars-count" class="font-bold text-yellow-700">0</span>
       </div><!-- Streak -->
-      <div class="flex items-center gap-1 bg-orange-100 px-3 py-1 rounded-full shadow"><span id="streak-icon" class="text-xl">🔥</span> <span id="streak-count" class="font-bold text-orange-700">0</span>
+      <div class="flex items-center gap-1 bg-orange-100 px-3 py-1 rounded-full shadow">
+       <span id="streak-icon" class="text-xl">🔥</span> <span id="streak-count" class="font-bold text-orange-700">0</span>
       </div><!-- Shop Button --> <button onclick="openShop()" class="btn-3d bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold px-4 py-2 rounded-xl text-sm flex items-center gap-1"> <span class="text-lg">🛒</span> <span class="hidden md:inline">Tienda</span> </button> <!-- Logout --> <button onclick="logout()" class="btn-3d bg-gradient-to-r from-red-400 to-red-500 text-white font-bold px-3 py-2 rounded-xl text-sm"> 🚪 </button>
      </div>
     </div>
    </div><!-- Dashboard Content -->
-   <div id="dashboard-content" class="p-4 md:p-6 max-w-6xl mx-auto"><!-- Welcome Section -->
+   <div id="dashboard-content" class="p-4 md:p-6 max-w-6xl mx-auto">
+    <!-- Welcome Section -->
     <div class="text-center mb-8">
      <h2 class="text-3xl md:text-4xl font-bold text-white drop-shadow-lg mb-2">¡Bienvenido a tu Aula! <span class="inline-block wiggle-animation">🎉</span></h2>
      <p class="text-white/90 text-lg">Selecciona tu fase o practica inglés</p>
     </div><!-- Phase Buttons -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8"><!-- Phase 3 --> <button onclick="openPhase(3)" class="btn-3d phase-btn-1 rounded-2xl p-6 text-white text-left card-hover group">
-      <div class="flex items-center gap-4"><span class="text-5xl group-hover:scale-110 transition-transform">📖</span>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8">
+     <!-- Phase 3 --> <button onclick="openPhase(3)" class="btn-3d phase-btn-1 rounded-2xl p-6 text-white text-left card-hover group">
+      <div class="flex items-center gap-4">
+       <span class="text-5xl group-hover:scale-110 transition-transform">📖</span>
        <div>
         <h3 class="text-xl md:text-2xl font-bold">FASE 3</h3>
         <p class="text-white/90 text-sm md:text-base">1° y 2° Grado</p>
        </div>
       </div>
-      <div class="mt-3 flex gap-2 flex-wrap"><span class="bg-white/20 px-2 py-1 rounded-full text-xs">6-8 años</span> <span class="bg-white/20 px-2 py-1 rounded-full text-xs">Básico</span>
+      <div class="mt-3 flex gap-2 flex-wrap">
+       <span class="bg-white/20 px-2 py-1 rounded-full text-xs">6-8 años</span> <span class="bg-white/20 px-2 py-1 rounded-full text-xs">Básico</span>
       </div></button> <!-- Phase 4 --> <button onclick="openPhase(4)" class="btn-3d phase-btn-2 rounded-2xl p-6 text-gray-800 text-left card-hover group">
-      <div class="flex items-center gap-4"><span class="text-5xl group-hover:scale-110 transition-transform">📚</span>
+      <div class="flex items-center gap-4">
+       <span class="text-5xl group-hover:scale-110 transition-transform">📚</span>
        <div>
         <h3 class="text-xl md:text-2xl font-bold">FASE 4</h3>
         <p class="text-gray-700 text-sm md:text-base">3° y 4° Grado</p>
        </div>
       </div>
-      <div class="mt-3 flex gap-2 flex-wrap"><span class="bg-white/40 px-2 py-1 rounded-full text-xs">8-10 años</span> <span class="bg-white/40 px-2 py-1 rounded-full text-xs">Intermedio</span>
+      <div class="mt-3 flex gap-2 flex-wrap">
+       <span class="bg-white/40 px-2 py-1 rounded-full text-xs">8-10 años</span> <span class="bg-white/40 px-2 py-1 rounded-full text-xs">Intermedio</span>
       </div></button> <!-- Phase 5 --> <button onclick="openPhase(5)" class="btn-3d phase-btn-3 rounded-2xl p-6 text-white text-left card-hover group">
-      <div class="flex items-center gap-4"><span class="text-5xl group-hover:scale-110 transition-transform">🎓</span>
+      <div class="flex items-center gap-4">
+       <span class="text-5xl group-hover:scale-110 transition-transform">🎓</span>
        <div>
         <h3 class="text-xl md:text-2xl font-bold">FASE 5</h3>
         <p class="text-white/90 text-sm md:text-base">5° y 6° Grado</p>
        </div>
       </div>
-      <div class="mt-3 flex gap-2 flex-wrap"><span class="bg-white/20 px-2 py-1 rounded-full text-xs">10-12 años</span> <span class="bg-white/20 px-2 py-1 rounded-full text-xs">Avanzado</span>
+      <div class="mt-3 flex gap-2 flex-wrap">
+       <span class="bg-white/20 px-2 py-1 rounded-full text-xs">10-12 años</span> <span class="bg-white/20 px-2 py-1 rounded-full text-xs">Avanzado</span>
       </div></button> <!-- English --> <button onclick="openEnglish()" class="btn-3d phase-btn-4 rounded-2xl p-6 text-white text-left card-hover group">
-      <div class="flex items-center gap-4"><span class="text-5xl group-hover:scale-110 transition-transform">🌎</span>
+      <div class="flex items-center gap-4">
+       <span class="text-5xl group-hover:scale-110 transition-transform">🌎</span>
        <div>
         <h3 class="text-xl md:text-2xl font-bold">INGLÉS</h3>
         <p class="text-white/90 text-sm md:text-base">Vocabulario</p>
        </div>
       </div>
-      <div class="mt-3 flex gap-2 flex-wrap"><span class="bg-white/20 px-2 py-1 rounded-full text-xs">Todos los grados</span> <span class="bg-white/20 px-2 py-1 rounded-full text-xs">English</span>
+      <div class="mt-3 flex gap-2 flex-wrap">
+       <span class="bg-white/20 px-2 py-1 rounded-full text-xs">Todos los grados</span> <span class="bg-white/20 px-2 py-1 rounded-full text-xs">English</span>
       </div></button>
     </div><!-- Daily Challenge Banner -->
     <div class="glass-effect rounded-2xl p-4 md:p-6 mb-6 border-2 border-yellow-300 pulse-glow-animation">
      <div class="flex flex-col md:flex-row items-center gap-4 justify-between">
-      <div class="flex items-center gap-3"><span class="text-4xl bounce-animation">🏆</span>
+      <div class="flex items-center gap-3">
+       <span class="text-4xl bounce-animation">🏆</span>
        <div>
         <h3 class="font-bold text-purple-700 text-lg">¡Reto del Día!</h3>
         <p class="text-gray-600 text-sm">Completa 3 juegos para ganar 5 estrellas extra</p>
        </div>
       </div>
       <div class="flex items-center gap-2">
-       <div class="bg-purple-100 px-3 py-1 rounded-full"><span id="daily-progress" class="font-bold text-purple-700">0/3</span>
+       <div class="bg-purple-100 px-3 py-1 rounded-full">
+        <span id="daily-progress" class="font-bold text-purple-700">0/3</span>
        </div>
       </div>
      </div>
     </div>
    </div>
   </div><!-- PHASE SCREEN -->
-  <div id="phase-screen" class="hidden min-h-full relative z-10"><!-- Back Button Fixed --> <button onclick="goBack()" class="fixed top-4 left-4 z-50 btn-3d bg-white/90 text-purple-700 font-bold px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg"> ← Volver </button>
+  <div id="phase-screen" class="hidden min-h-full relative z-10">
+   <!-- Back Button Fixed --> <button onclick="goBack()" class="fixed top-4 left-4 z-50 btn-3d bg-white/90 text-purple-700 font-bold px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg"> ← Volver </button>
    <div class="p-4 md:p-6 pt-16 max-w-6xl mx-auto">
     <h2 id="phase-title" class="text-3xl md:text-4xl font-bold text-white text-center drop-shadow-lg mb-6">FASE 3 - 1° y 2° Grado</h2><!-- Subjects Grid -->
-    <div id="subjects-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"><!-- Subjects will be populated by JS -->
+    <div id="subjects-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+     <!-- Subjects will be populated by JS -->
     </div>
    </div>
   </div><!-- ENGLISH SCREEN -->
-  <div id="english-screen" class="hidden min-h-full relative z-10"><button onclick="goBack()" class="fixed top-4 left-4 z-50 btn-3d bg-white/90 text-purple-700 font-bold px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg"> ← Volver </button>
+  <div id="english-screen" class="hidden min-h-full relative z-10">
+   <button onclick="goBack()" class="fixed top-4 left-4 z-50 btn-3d bg-white/90 text-purple-700 font-bold px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg"> ← Volver </button>
    <div class="p-4 md:p-6 pt-16 max-w-6xl mx-auto">
     <h2 class="text-3xl md:text-4xl font-bold text-white text-center drop-shadow-lg mb-2">🌎 English Vocabulary</h2>
     <p class="text-white/90 text-center mb-6">Aprende inglés de manera divertida</p><!-- English Tabs -->
-    <div class="flex flex-wrap justify-center gap-2 mb-6"><button onclick="setEnglishTab('study')" id="tab-study" class="btn-3d bg-green-500 text-white font-bold px-4 py-2 rounded-xl">📚 Estudiar</button> <button onclick="setEnglishTab('quiz')" id="tab-quiz" class="btn-3d bg-yellow-500 text-white font-bold px-4 py-2 rounded-xl">❓ Repaso</button> <button onclick="setEnglishTab('sentences')" id="tab-sentences" class="btn-3d bg-blue-500 text-white font-bold px-4 py-2 rounded-xl">💬 Oraciones</button>
+    <div class="flex flex-wrap justify-center gap-2 mb-6">
+     <button onclick="setEnglishTab('study')" id="tab-study" class="btn-3d bg-green-500 text-white font-bold px-4 py-2 rounded-xl">📚 Estudiar</button> <button onclick="setEnglishTab('quiz')" id="tab-quiz" class="btn-3d bg-yellow-500 text-white font-bold px-4 py-2 rounded-xl">❓ Repaso</button> <button onclick="setEnglishTab('sentences')" id="tab-sentences" class="btn-3d bg-blue-500 text-white font-bold px-4 py-2 rounded-xl">💬 Oraciones</button>
     </div><!-- English Content -->
-    <div id="english-content"><!-- Categories Grid - Study Mode -->
-     <div id="study-mode" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"><!-- Will be populated by JS -->
+    <div id="english-content">
+     <!-- Categories Grid - Study Mode -->
+     <div id="study-mode" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+      <!-- Will be populated by JS -->
      </div><!-- Quiz Mode -->
-     <div id="quiz-mode" class="hidden"><!-- Quiz content -->
+     <div id="quiz-mode" class="hidden">
+      <!-- Quiz content -->
      </div><!-- Sentences Mode -->
-     <div id="sentences-mode" class="hidden"><!-- Sentences content -->
+     <div id="sentences-mode" class="hidden">
+      <!-- Sentences content -->
      </div>
     </div>
    </div>
   </div><!-- VOCABULARY STUDY SCREEN -->
-  <div id="vocab-study-screen" class="hidden min-h-full relative z-10"><button onclick="closeVocabStudy()" class="fixed top-4 left-4 z-50 btn-3d bg-white/90 text-purple-700 font-bold px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg"> ← Volver </button>
+  <div id="vocab-study-screen" class="hidden min-h-full relative z-10">
+   <button onclick="closeVocabStudy()" class="fixed top-4 left-4 z-50 btn-3d bg-white/90 text-purple-700 font-bold px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg"> ← Volver </button>
    <div class="p-4 md:p-6 pt-16 max-w-4xl mx-auto">
     <h2 id="vocab-category-title" class="text-2xl md:text-3xl font-bold text-white text-center drop-shadow-lg mb-6">Categoría</h2><!-- Flashcard Container -->
-    <div id="flashcard-container" class="flex flex-col items-center"><!-- Progress -->
+    <div id="flashcard-container" class="flex flex-col items-center">
+     <!-- Progress -->
      <div class="w-full max-w-md mb-4">
-      <div class="flex justify-between text-white text-sm mb-1"><span id="vocab-progress-text">1 de 10</span> <span id="vocab-learned">Aprendidos: 0</span>
+      <div class="flex justify-between text-white text-sm mb-1">
+       <span id="vocab-progress-text">1 de 10</span> <span id="vocab-learned">Aprendidos: 0</span>
       </div>
       <div class="bg-white/30 rounded-full h-3 overflow-hidden">
        <div id="vocab-progress-bar" class="progress-bar h-full" style="width: 10%"></div>
@@ -398,30 +434,37 @@
      </div><!-- Flashcard -->
      <div id="vocab-flashcard" class="flashcard w-full max-w-md h-80 cursor-pointer" onclick="flipCard()">
       <div class="flashcard-inner w-full h-full relative">
-       <div class="flashcard-front absolute inset-0 glass-effect rounded-3xl flex flex-col items-center justify-center p-6"><span id="vocab-emoji" class="text-8xl mb-4 float-animation">🐱</span>
+       <div class="flashcard-front absolute inset-0 glass-effect rounded-3xl flex flex-col items-center justify-center p-6">
+        <span id="vocab-emoji" class="text-8xl mb-4 float-animation">🐱</span>
         <p class="text-gray-500 text-sm">Toca para ver la palabra</p>
        </div>
-       <div class="flashcard-back absolute inset-0 glass-effect rounded-3xl flex flex-col items-center justify-center p-6"><span id="vocab-word-en" class="text-4xl font-bold text-purple-700 mb-2">CAT</span> <span id="vocab-word-es" class="text-2xl text-pink-600 mb-2">Gato</span>
+       <div class="flashcard-back absolute inset-0 glass-effect rounded-3xl flex flex-col items-center justify-center p-6">
+        <span id="vocab-word-en" class="text-4xl font-bold text-purple-700 mb-2">CAT</span> <span id="vocab-word-es" class="text-2xl text-pink-600 mb-2">Gato</span>
         <div id="vocab-pronunciation" class="text-gray-500 text-sm">
          /kæt/
         </div>
        </div>
       </div>
      </div><!-- Navigation -->
-     <div class="flex gap-4 mt-6"><button onclick="prevVocab()" class="btn-3d bg-gray-500 text-white font-bold px-6 py-3 rounded-xl"> ← Anterior </button> <button onclick="markLearned()" class="btn-3d bg-green-500 text-white font-bold px-6 py-3 rounded-xl"> ✓ Aprendido </button> <button onclick="nextVocab()" class="btn-3d bg-purple-500 text-white font-bold px-6 py-3 rounded-xl"> Siguiente → </button>
+     <div class="flex gap-4 mt-6">
+      <button onclick="prevVocab()" class="btn-3d bg-gray-500 text-white font-bold px-6 py-3 rounded-xl"> ← Anterior </button> <button onclick="markLearned()" class="btn-3d bg-green-500 text-white font-bold px-6 py-3 rounded-xl"> ✓ Aprendido </button> <button onclick="nextVocab()" class="btn-3d bg-purple-500 text-white font-bold px-6 py-3 rounded-xl"> Siguiente → </button>
      </div>
     </div>
    </div>
   </div><!-- GAME SCREEN -->
-  <div id="game-screen" class="hidden min-h-full relative z-10"><button onclick="exitGame()" class="fixed top-4 left-4 z-50 btn-3d bg-white/90 text-purple-700 font-bold px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg"> ← Salir </button> <!-- Game Stats Bar -->
+  <div id="game-screen" class="hidden min-h-full relative z-10">
+   <button onclick="exitGame()" class="fixed top-4 left-4 z-50 btn-3d bg-white/90 text-purple-700 font-bold px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg"> ← Salir </button> <!-- Game Stats Bar -->
    <div class="fixed top-4 right-4 z-50 flex items-center gap-3">
-    <div class="bg-white/90 rounded-xl px-3 py-2 shadow-lg flex items-center gap-2"><span class="text-lg">❓</span> <span id="game-question-num" class="font-bold text-purple-700">1/10</span>
+    <div class="bg-white/90 rounded-xl px-3 py-2 shadow-lg flex items-center gap-2">
+     <span class="text-lg">❓</span> <span id="game-question-num" class="font-bold text-purple-700">1/10</span>
     </div>
-    <div class="bg-white/90 rounded-xl px-3 py-2 shadow-lg flex items-center gap-2"><span class="text-lg">⭐</span> <span id="game-score" class="font-bold text-yellow-600">0</span>
+    <div class="bg-white/90 rounded-xl px-3 py-2 shadow-lg flex items-center gap-2">
+     <span class="text-lg">⭐</span> <span id="game-score" class="font-bold text-yellow-600">0</span>
     </div>
    </div>
    <div class="p-4 md:p-6 pt-20 max-w-4xl mx-auto">
-    <div id="game-container" class="glass-effect rounded-3xl p-6 md:p-8"><!-- Game content loaded dynamically -->
+    <div id="game-container" class="glass-effect rounded-3xl p-6 md:p-8">
+     <!-- Game content loaded dynamically -->
     </div>
    </div>
   </div><!-- SHOP MODAL -->
@@ -434,9 +477,11 @@
      <p class="text-sm text-yellow-700">Tus estrellas</p>
      <p class="text-3xl font-bold text-yellow-600 flex items-center justify-center gap-2"><span class="sparkle-animation">⭐</span> <span id="shop-stars">0</span></p>
     </div><!-- Shop Items -->
-    <div class="space-y-4"><!-- 1 Heart -->
+    <div class="space-y-4">
+     <!-- 1 Heart -->
      <div class="bg-white rounded-xl p-4 flex items-center justify-between shadow">
-      <div class="flex items-center gap-3"><span class="text-3xl">❤️</span>
+      <div class="flex items-center gap-3">
+       <span class="text-3xl">❤️</span>
        <div>
         <p class="font-bold text-gray-700">+1 Vida</p>
         <p class="text-sm text-gray-500">Recupera un corazón</p>
@@ -444,7 +489,8 @@
       </div><button onclick="buyItem('heart1', 5)" class="btn-3d bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold px-4 py-2 rounded-xl flex items-center gap-1"> 5 ⭐ </button>
      </div><!-- 3 Hearts -->
      <div class="bg-white rounded-xl p-4 flex items-center justify-between shadow">
-      <div class="flex items-center gap-3"><span class="text-3xl">💕</span>
+      <div class="flex items-center gap-3">
+       <span class="text-3xl">💕</span>
        <div>
         <p class="font-bold text-gray-700">+3 Vidas</p>
         <p class="text-sm text-gray-500">Recupera tres corazones</p>
@@ -452,7 +498,8 @@
       </div><button onclick="buyItem('heart3', 12)" class="btn-3d bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold px-4 py-2 rounded-xl flex items-center gap-1"> 12 ⭐ </button>
      </div><!-- Full Hearts -->
      <div class="bg-gradient-to-r from-pink-100 to-red-100 rounded-xl p-4 flex items-center justify-between shadow border-2 border-pink-300">
-      <div class="flex items-center gap-3"><span class="text-3xl heart-beat-animation">💖</span>
+      <div class="flex items-center gap-3">
+       <span class="text-3xl heart-beat-animation">💖</span>
        <div>
         <p class="font-bold text-pink-700">Vidas Completas</p>
         <p class="text-sm text-pink-600">¡Llena todos tus corazones!</p>
@@ -460,7 +507,8 @@
       </div><button onclick="buyItem('heartFull', 20)" class="btn-3d bg-gradient-to-r from-pink-500 to-red-500 text-white font-bold px-4 py-2 rounded-xl flex items-center gap-1"> 20 ⭐ </button>
      </div><!-- Streak Shield -->
      <div class="bg-gradient-to-r from-orange-100 to-yellow-100 rounded-xl p-4 flex items-center justify-between shadow border-2 border-orange-300">
-      <div class="flex items-center gap-3"><span class="text-3xl">🛡️</span>
+      <div class="flex items-center gap-3">
+       <span class="text-3xl">🛡️</span>
        <div>
         <p class="font-bold text-orange-700">Escudo de Racha</p>
         <p class="text-sm text-orange-600">Protege tu racha por 1 error</p>
@@ -482,7 +530,8 @@
      <p class="text-sm text-yellow-700">Estrellas ganadas</p>
      <p class="text-4xl font-bold text-yellow-600 flex items-center justify-center gap-2"><span class="sparkle-animation">⭐</span> <span id="result-stars">0</span></p>
     </div>
-    <div class="flex flex-col gap-3"><button onclick="playAgain()" class="btn-3d bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold py-3 rounded-xl"> 🔄 Jugar de Nuevo </button> <button onclick="closeResultAndGoBack()" class="btn-3d bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 rounded-xl"> 📚 Volver a Materias </button>
+    <div class="flex flex-col gap-3">
+     <button onclick="playAgain()" class="btn-3d bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold py-3 rounded-xl"> 🔄 Jugar de Nuevo </button> <button onclick="closeResultAndGoBack()" class="btn-3d bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 rounded-xl"> 📚 Volver a Materias </button>
     </div>
    </div>
   </div><!-- NO LIVES MODAL -->
@@ -493,7 +542,8 @@
     </div>
     <h3 class="text-2xl font-bold text-red-600 mb-2">¡Sin Vidas!</h3>
     <p class="text-gray-600 mb-6">Necesitas vidas para jugar. Visita la tienda para comprar más con tus estrellas.</p>
-    <div class="flex flex-col gap-3"><button onclick="closeNoLivesAndOpenShop()" class="btn-3d bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold py-3 rounded-xl"> 🛒 Ir a la Tienda </button> <button onclick="closeNoLivesModal()" class="btn-3d bg-gray-400 text-white font-bold py-3 rounded-xl"> Cerrar </button>
+    <div class="flex flex-col gap-3">
+     <button onclick="closeNoLivesAndOpenShop()" class="btn-3d bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold py-3 rounded-xl"> 🛒 Ir a la Tienda </button> <button onclick="closeNoLivesModal()" class="btn-3d bg-gray-400 text-white font-bold py-3 rounded-xl"> Cerrar </button>
     </div>
    </div>
   </div>
@@ -1086,9 +1136,9 @@
       }
     }
 
-    // ==================== LOCAL STORAGE ====================
+    // ==================== SESSION STORAGE (INDEPENDENT PER SESSION) ====================
     function loadGameState() {
-      const saved = localStorage.getItem('aula_interactiva_state');
+      const saved = sessionStorage.getItem('aula_interactiva_session');
       if (saved) {
         const parsed = JSON.parse(saved);
         gameState = { ...gameState, ...parsed };
@@ -1096,7 +1146,7 @@
     }
 
     function saveGameState() {
-      localStorage.setItem('aula_interactiva_state', JSON.stringify({
+      sessionStorage.setItem('aula_interactiva_session', JSON.stringify({
         lives: gameState.lives,
         stars: gameState.stars,
         streak: gameState.streak,
@@ -1759,5 +1809,5 @@
       }
     }
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d3c483c67a22bab',t:'MTc3MjA3NTc3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d3c5dd5037c2bab',t:'MTc3MjA3NjY1NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
