@@ -1,0 +1,1763 @@
+<!doctype html>
+<html lang="es" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Aula Interactiva - Esc. Prim. Venustiano Carranza</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&amp;family=Comic+Neue:wght@400;700&amp;display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Fredoka', 'Comic Neue', cursive, sans-serif; }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(3deg); }
+    }
+    
+    @keyframes bounce-soft {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-3deg); }
+      50% { transform: rotate(3deg); }
+    }
+    
+    @keyframes sparkle {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.2); }
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+      50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
+    }
+    
+    @keyframes slide-in {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes heart-beat {
+      0%, 100% { transform: scale(1); }
+      25% { transform: scale(1.1); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.1); }
+    }
+    
+    .float-animation { animation: float 3s ease-in-out infinite; }
+    .bounce-animation { animation: bounce-soft 2s ease-in-out infinite; }
+    .wiggle-animation { animation: wiggle 1s ease-in-out infinite; }
+    .sparkle-animation { animation: sparkle 1.5s ease-in-out infinite; }
+    .pulse-glow-animation { animation: pulse-glow 2s ease-in-out infinite; }
+    .slide-in-animation { animation: slide-in 0.5s ease-out forwards; }
+    .heart-beat-animation { animation: heart-beat 1s ease-in-out infinite; }
+    
+    .btn-3d {
+      transform: translateY(0);
+      box-shadow: 0 6px 0 #00000030, 0 8px 20px rgba(0,0,0,0.2);
+      transition: all 0.15s ease;
+    }
+    .btn-3d:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 9px 0 #00000030, 0 12px 25px rgba(0,0,0,0.25);
+    }
+    .btn-3d:active {
+      transform: translateY(3px);
+      box-shadow: 0 3px 0 #00000030, 0 4px 10px rgba(0,0,0,0.2);
+    }
+    
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .card-hover:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    }
+    
+    .rainbow-border {
+      background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcb77, #4d96ff, #9b59b6);
+      background-size: 300% 100%;
+      animation: rainbow 3s linear infinite;
+    }
+    
+    @keyframes rainbow {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
+    
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+    }
+    
+    .emoji-float {
+      position: absolute;
+      animation: float 4s ease-in-out infinite;
+      pointer-events: none;
+      font-size: 2rem;
+    }
+    
+    .progress-bar {
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      border-radius: 10px;
+      transition: width 0.5s ease;
+    }
+    
+    .star-earned {
+      color: #ffd700;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    }
+    
+    .heart-full { color: #ff4757; }
+    .heart-empty { color: #ddd; filter: grayscale(100%); }
+    
+    .modal-overlay {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(5px);
+    }
+    
+    .confetti {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    
+    input:focus {
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.3);
+    }
+    
+    .phase-btn-1 { background: linear-gradient(135deg, #ff6b6b, #ee5a5a); }
+    .phase-btn-2 { background: linear-gradient(135deg, #ffd93d, #ffcd00); }
+    .phase-btn-3 { background: linear-gradient(135deg, #6bcb77, #4caf50); }
+    .phase-btn-4 { background: linear-gradient(135deg, #4d96ff, #2196f3); }
+    
+    .subject-math { background: linear-gradient(135deg, #ff9a9e, #fad0c4); }
+    .subject-spanish { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+    .subject-science { background: linear-gradient(135deg, #84fab0, #8fd3f4); }
+    .subject-socio { background: linear-gradient(135deg, #ffecd2, #fcb69f); }
+    .subject-history { background: linear-gradient(135deg, #d4fc79, #96e6a1); }
+    .subject-finance { background: linear-gradient(135deg, #667eea, #764ba2); }
+    
+    .vocab-category { transition: all 0.3s ease; }
+    .vocab-category:hover { transform: scale(1.05) rotate(2deg); }
+    
+    .flashcard {
+      perspective: 1000px;
+    }
+    .flashcard-inner {
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+    .flashcard.flipped .flashcard-inner {
+      transform: rotateY(180deg);
+    }
+    .flashcard-front, .flashcard-back {
+      backface-visibility: hidden;
+    }
+    .flashcard-back {
+      transform: rotateY(180deg);
+    }
+    
+    .draggable {
+      cursor: grab;
+      user-select: none;
+    }
+    .draggable:active {
+      cursor: grabbing;
+    }
+    
+    .drop-zone {
+      border: 3px dashed #ccc;
+      transition: all 0.3s ease;
+    }
+    .drop-zone.drag-over {
+      border-color: #4caf50;
+      background: rgba(76, 175, 80, 0.1);
+    }
+    
+    .option-btn {
+      transition: all 0.2s ease;
+    }
+    .option-btn:hover {
+      transform: scale(1.03);
+    }
+    .option-btn.correct {
+      background: linear-gradient(135deg, #4caf50, #8bc34a) !important;
+      animation: pulse-glow 0.5s ease;
+    }
+    .option-btn.incorrect {
+      background: linear-gradient(135deg, #f44336, #e91e63) !important;
+      animation: wiggle 0.5s ease;
+    }
+    
+    .streak-fire {
+      animation: sparkle 0.5s ease-in-out infinite;
+    }
+    
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border-radius: 10px;
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full overflow-auto bg-gradient-to-br from-purple-400 via-pink-300 to-blue-400"><!-- Floating Emojis Background -->
+  <div id="floating-emojis" class="fixed inset-0 pointer-events-none overflow-hidden z-0"></div><!-- LOGIN SCREEN -->
+  <div id="login-screen" class="min-h-full flex items-center justify-center p-4 relative z-10">
+   <div class="glass-effect rounded-3xl p-8 md:p-12 max-w-md w-full shadow-2xl slide-in-animation"><!-- School Logo/Title -->
+    <div class="text-center mb-8">
+     <div class="text-6xl mb-4 bounce-animation">
+      🏫
+     </div>
+     <h1 class="text-2xl md:text-3xl font-bold text-purple-700 leading-tight">ESCUELA PRIMARIA<br>
+      VENUSTIANO CARRANZA</h1>
+     <p class="text-purple-500 font-medium mt-1">26DPR1320W</p>
+     <div class="rainbow-border h-1 rounded-full my-4"></div>
+     <h2 class="text-xl md:text-2xl font-bold text-pink-600 flex items-center justify-center gap-2"><span class="wiggle-animation inline-block">✨</span> MI AULA INTERACTIVA <span class="wiggle-animation inline-block" style="animation-delay: 0.5s;">✨</span></h2>
+    </div><!-- Login Form -->
+    <form id="login-form" class="space-y-4">
+     <div><label class="block text-purple-700 font-semibold mb-2 text-sm">👤 Usuario</label> <input type="text" id="username" placeholder="Ingresa tu usuario" class="w-full px-4 py-3 rounded-xl border-2 border-purple-200 focus:border-purple-500 text-lg transition-all">
+     </div>
+     <div><label class="block text-purple-700 font-semibold mb-2 text-sm">🔒 Contraseña</label> <input type="password" id="password" placeholder="Ingresa tu contraseña" class="w-full px-4 py-3 rounded-xl border-2 border-purple-200 focus:border-purple-500 text-lg transition-all">
+     </div>
+     <div id="login-error" class="hidden text-red-500 text-center text-sm bg-red-50 p-2 rounded-lg">
+      ❌ Usuario o contraseña incorrectos
+     </div><button type="submit" class="w-full btn-3d bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-4 rounded-xl text-lg hover:from-purple-600 hover:to-pink-600"> 🚀 ¡ENTRAR A APRENDER! </button>
+    </form><!-- Terms Link -->
+    <div class="mt-6 text-center"><button onclick="showTerms()" class="text-purple-600 hover:text-purple-800 underline text-sm font-medium"> 📋 Ver Términos y Condiciones </button>
+    </div><!-- Credits -->
+    <div class="mt-4 text-center text-xs text-gray-500">
+     <p>Material creado por</p>
+     <p class="font-semibold text-purple-600">Maestra María Fernanda Flores Valenzuela</p>
+    </div>
+   </div>
+  </div><!-- TERMS MODAL -->
+  <div id="terms-modal" class="hidden fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4">
+   <div class="glass-effect rounded-3xl p-6 md:p-8 max-w-lg w-full max-h-[80%] overflow-auto shadow-2xl slide-in-animation">
+    <div class="flex justify-between items-start mb-4">
+     <h3 class="text-xl font-bold text-purple-700 flex items-center gap-2">📋 Términos y Condiciones</h3><button onclick="hideTerms()" class="text-2xl text-gray-400 hover:text-red-500 transition-colors">✕</button>
+    </div>
+    <div class="space-y-4 text-sm text-gray-700">
+     <div class="bg-purple-50 p-4 rounded-xl">
+      <h4 class="font-bold text-purple-700 mb-2">📚 Uso Exclusivo Institucional</h4>
+      <p>Este material educativo es de uso <strong>exclusivo</strong> para la Escuela Primaria Venustiano Carranza con Clave de Centro de Trabajo <strong>26DPR1320W</strong>.</p>
+     </div>
+     <div class="bg-pink-50 p-4 rounded-xl">
+      <h4 class="font-bold text-pink-700 mb-2">👥 Usuarios Autorizados</h4>
+      <p>El acceso está permitido únicamente para:</p>
+      <ul class="list-disc list-inside mt-2 space-y-1">
+       <li>Personal docente y administrativo de la institución</li>
+       <li>Alumnos inscritos y vigentes en el ciclo escolar</li>
+      </ul>
+     </div>
+     <div class="bg-yellow-50 p-4 rounded-xl">
+      <h4 class="font-bold text-yellow-700 mb-2">⚠️ Restricciones</h4>
+      <ul class="list-disc list-inside space-y-1">
+       <li>No está permitido compartir credenciales de acceso</li>
+       <li>Prohibida la reproducción o distribución del material</li>
+       <li>No se permite el uso comercial de los contenidos</li>
+       <li>El uso indebido resultará en la suspensión del acceso</li>
+      </ul>
+     </div>
+     <div class="bg-green-50 p-4 rounded-xl">
+      <h4 class="font-bold text-green-700 mb-2">✅ Contenido Educativo</h4>
+      <p>Los contenidos están alineados con los Planes y Programas de la <strong>Nueva Escuela Mexicana</strong> y la <strong>Secretaría de Educación Pública</strong> de México.</p>
+     </div>
+     <div class="bg-blue-50 p-4 rounded-xl">
+      <h4 class="font-bold text-blue-700 mb-2">©️ Propiedad Intelectual</h4>
+      <p>Todo el material contenido en esta plataforma es propiedad intelectual de la <strong>Maestra María Fernanda Flores Valenzuela</strong> y está protegido por las leyes de derechos de autor vigentes.</p>
+     </div>
+    </div>
+    <div class="mt-6 flex gap-3"><button onclick="acceptTerms()" class="flex-1 btn-3d bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2"> ✓ Acepto </button> <button onclick="hideTerms()" class="flex-1 btn-3d bg-gradient-to-r from-red-400 to-red-500 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-2"> ✕ Cerrar </button>
+    </div>
+   </div>
+  </div><!-- MAIN DASHBOARD -->
+  <div id="dashboard-screen" class="hidden min-h-full relative z-10"><!-- Top Bar -->
+   <div class="glass-effect sticky top-0 z-40 p-3 md:p-4 shadow-lg">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3"><!-- Logo -->
+     <div class="flex items-center gap-2"><span class="text-3xl bounce-animation">🏫</span>
+      <div>
+       <h1 class="text-sm md:text-base font-bold text-purple-700 leading-tight">ESC. PRIM. VENUSTIANO CARRANZA</h1>
+       <p class="text-xs text-pink-600 font-medium">Mi Aula Interactiva ✨</p>
+      </div>
+     </div><!-- Stats Bar -->
+     <div class="flex items-center gap-3 md:gap-6"><!-- Lives -->
+      <div class="flex items-center gap-1 bg-white/80 px-3 py-1 rounded-full shadow"><span id="lives-display" class="flex text-xl"> <span class="heart-beat-animation heart-full">❤️</span> <span class="heart-beat-animation heart-full" style="animation-delay:0.1s">❤️</span> <span class="heart-beat-animation heart-full" style="animation-delay:0.2s">❤️</span> <span class="heart-beat-animation heart-full" style="animation-delay:0.3s">❤️</span> <span class="heart-beat-animation heart-full" style="animation-delay:0.4s">❤️</span> </span>
+      </div><!-- Stars -->
+      <div class="flex items-center gap-1 bg-yellow-100 px-3 py-1 rounded-full shadow"><span class="text-xl sparkle-animation">⭐</span> <span id="stars-count" class="font-bold text-yellow-700">0</span>
+      </div><!-- Streak -->
+      <div class="flex items-center gap-1 bg-orange-100 px-3 py-1 rounded-full shadow"><span id="streak-icon" class="text-xl">🔥</span> <span id="streak-count" class="font-bold text-orange-700">0</span>
+      </div><!-- Shop Button --> <button onclick="openShop()" class="btn-3d bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold px-4 py-2 rounded-xl text-sm flex items-center gap-1"> <span class="text-lg">🛒</span> <span class="hidden md:inline">Tienda</span> </button> <!-- Logout --> <button onclick="logout()" class="btn-3d bg-gradient-to-r from-red-400 to-red-500 text-white font-bold px-3 py-2 rounded-xl text-sm"> 🚪 </button>
+     </div>
+    </div>
+   </div><!-- Dashboard Content -->
+   <div id="dashboard-content" class="p-4 md:p-6 max-w-6xl mx-auto"><!-- Welcome Section -->
+    <div class="text-center mb-8">
+     <h2 class="text-3xl md:text-4xl font-bold text-white drop-shadow-lg mb-2">¡Bienvenido a tu Aula! <span class="inline-block wiggle-animation">🎉</span></h2>
+     <p class="text-white/90 text-lg">Selecciona tu fase o practica inglés</p>
+    </div><!-- Phase Buttons -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8"><!-- Phase 3 --> <button onclick="openPhase(3)" class="btn-3d phase-btn-1 rounded-2xl p-6 text-white text-left card-hover group">
+      <div class="flex items-center gap-4"><span class="text-5xl group-hover:scale-110 transition-transform">📖</span>
+       <div>
+        <h3 class="text-xl md:text-2xl font-bold">FASE 3</h3>
+        <p class="text-white/90 text-sm md:text-base">1° y 2° Grado</p>
+       </div>
+      </div>
+      <div class="mt-3 flex gap-2 flex-wrap"><span class="bg-white/20 px-2 py-1 rounded-full text-xs">6-8 años</span> <span class="bg-white/20 px-2 py-1 rounded-full text-xs">Básico</span>
+      </div></button> <!-- Phase 4 --> <button onclick="openPhase(4)" class="btn-3d phase-btn-2 rounded-2xl p-6 text-gray-800 text-left card-hover group">
+      <div class="flex items-center gap-4"><span class="text-5xl group-hover:scale-110 transition-transform">📚</span>
+       <div>
+        <h3 class="text-xl md:text-2xl font-bold">FASE 4</h3>
+        <p class="text-gray-700 text-sm md:text-base">3° y 4° Grado</p>
+       </div>
+      </div>
+      <div class="mt-3 flex gap-2 flex-wrap"><span class="bg-white/40 px-2 py-1 rounded-full text-xs">8-10 años</span> <span class="bg-white/40 px-2 py-1 rounded-full text-xs">Intermedio</span>
+      </div></button> <!-- Phase 5 --> <button onclick="openPhase(5)" class="btn-3d phase-btn-3 rounded-2xl p-6 text-white text-left card-hover group">
+      <div class="flex items-center gap-4"><span class="text-5xl group-hover:scale-110 transition-transform">🎓</span>
+       <div>
+        <h3 class="text-xl md:text-2xl font-bold">FASE 5</h3>
+        <p class="text-white/90 text-sm md:text-base">5° y 6° Grado</p>
+       </div>
+      </div>
+      <div class="mt-3 flex gap-2 flex-wrap"><span class="bg-white/20 px-2 py-1 rounded-full text-xs">10-12 años</span> <span class="bg-white/20 px-2 py-1 rounded-full text-xs">Avanzado</span>
+      </div></button> <!-- English --> <button onclick="openEnglish()" class="btn-3d phase-btn-4 rounded-2xl p-6 text-white text-left card-hover group">
+      <div class="flex items-center gap-4"><span class="text-5xl group-hover:scale-110 transition-transform">🌎</span>
+       <div>
+        <h3 class="text-xl md:text-2xl font-bold">INGLÉS</h3>
+        <p class="text-white/90 text-sm md:text-base">Vocabulario</p>
+       </div>
+      </div>
+      <div class="mt-3 flex gap-2 flex-wrap"><span class="bg-white/20 px-2 py-1 rounded-full text-xs">Todos los grados</span> <span class="bg-white/20 px-2 py-1 rounded-full text-xs">English</span>
+      </div></button>
+    </div><!-- Daily Challenge Banner -->
+    <div class="glass-effect rounded-2xl p-4 md:p-6 mb-6 border-2 border-yellow-300 pulse-glow-animation">
+     <div class="flex flex-col md:flex-row items-center gap-4 justify-between">
+      <div class="flex items-center gap-3"><span class="text-4xl bounce-animation">🏆</span>
+       <div>
+        <h3 class="font-bold text-purple-700 text-lg">¡Reto del Día!</h3>
+        <p class="text-gray-600 text-sm">Completa 3 juegos para ganar 5 estrellas extra</p>
+       </div>
+      </div>
+      <div class="flex items-center gap-2">
+       <div class="bg-purple-100 px-3 py-1 rounded-full"><span id="daily-progress" class="font-bold text-purple-700">0/3</span>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </div><!-- PHASE SCREEN -->
+  <div id="phase-screen" class="hidden min-h-full relative z-10"><!-- Back Button Fixed --> <button onclick="goBack()" class="fixed top-4 left-4 z-50 btn-3d bg-white/90 text-purple-700 font-bold px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg"> ← Volver </button>
+   <div class="p-4 md:p-6 pt-16 max-w-6xl mx-auto">
+    <h2 id="phase-title" class="text-3xl md:text-4xl font-bold text-white text-center drop-shadow-lg mb-6">FASE 3 - 1° y 2° Grado</h2><!-- Subjects Grid -->
+    <div id="subjects-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"><!-- Subjects will be populated by JS -->
+    </div>
+   </div>
+  </div><!-- ENGLISH SCREEN -->
+  <div id="english-screen" class="hidden min-h-full relative z-10"><button onclick="goBack()" class="fixed top-4 left-4 z-50 btn-3d bg-white/90 text-purple-700 font-bold px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg"> ← Volver </button>
+   <div class="p-4 md:p-6 pt-16 max-w-6xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold text-white text-center drop-shadow-lg mb-2">🌎 English Vocabulary</h2>
+    <p class="text-white/90 text-center mb-6">Aprende inglés de manera divertida</p><!-- English Tabs -->
+    <div class="flex flex-wrap justify-center gap-2 mb-6"><button onclick="setEnglishTab('study')" id="tab-study" class="btn-3d bg-green-500 text-white font-bold px-4 py-2 rounded-xl">📚 Estudiar</button> <button onclick="setEnglishTab('quiz')" id="tab-quiz" class="btn-3d bg-yellow-500 text-white font-bold px-4 py-2 rounded-xl">❓ Repaso</button> <button onclick="setEnglishTab('sentences')" id="tab-sentences" class="btn-3d bg-blue-500 text-white font-bold px-4 py-2 rounded-xl">💬 Oraciones</button>
+    </div><!-- English Content -->
+    <div id="english-content"><!-- Categories Grid - Study Mode -->
+     <div id="study-mode" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4"><!-- Will be populated by JS -->
+     </div><!-- Quiz Mode -->
+     <div id="quiz-mode" class="hidden"><!-- Quiz content -->
+     </div><!-- Sentences Mode -->
+     <div id="sentences-mode" class="hidden"><!-- Sentences content -->
+     </div>
+    </div>
+   </div>
+  </div><!-- VOCABULARY STUDY SCREEN -->
+  <div id="vocab-study-screen" class="hidden min-h-full relative z-10"><button onclick="closeVocabStudy()" class="fixed top-4 left-4 z-50 btn-3d bg-white/90 text-purple-700 font-bold px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg"> ← Volver </button>
+   <div class="p-4 md:p-6 pt-16 max-w-4xl mx-auto">
+    <h2 id="vocab-category-title" class="text-2xl md:text-3xl font-bold text-white text-center drop-shadow-lg mb-6">Categoría</h2><!-- Flashcard Container -->
+    <div id="flashcard-container" class="flex flex-col items-center"><!-- Progress -->
+     <div class="w-full max-w-md mb-4">
+      <div class="flex justify-between text-white text-sm mb-1"><span id="vocab-progress-text">1 de 10</span> <span id="vocab-learned">Aprendidos: 0</span>
+      </div>
+      <div class="bg-white/30 rounded-full h-3 overflow-hidden">
+       <div id="vocab-progress-bar" class="progress-bar h-full" style="width: 10%"></div>
+      </div>
+     </div><!-- Flashcard -->
+     <div id="vocab-flashcard" class="flashcard w-full max-w-md h-80 cursor-pointer" onclick="flipCard()">
+      <div class="flashcard-inner w-full h-full relative">
+       <div class="flashcard-front absolute inset-0 glass-effect rounded-3xl flex flex-col items-center justify-center p-6"><span id="vocab-emoji" class="text-8xl mb-4 float-animation">🐱</span>
+        <p class="text-gray-500 text-sm">Toca para ver la palabra</p>
+       </div>
+       <div class="flashcard-back absolute inset-0 glass-effect rounded-3xl flex flex-col items-center justify-center p-6"><span id="vocab-word-en" class="text-4xl font-bold text-purple-700 mb-2">CAT</span> <span id="vocab-word-es" class="text-2xl text-pink-600 mb-2">Gato</span>
+        <div id="vocab-pronunciation" class="text-gray-500 text-sm">
+         /kæt/
+        </div>
+       </div>
+      </div>
+     </div><!-- Navigation -->
+     <div class="flex gap-4 mt-6"><button onclick="prevVocab()" class="btn-3d bg-gray-500 text-white font-bold px-6 py-3 rounded-xl"> ← Anterior </button> <button onclick="markLearned()" class="btn-3d bg-green-500 text-white font-bold px-6 py-3 rounded-xl"> ✓ Aprendido </button> <button onclick="nextVocab()" class="btn-3d bg-purple-500 text-white font-bold px-6 py-3 rounded-xl"> Siguiente → </button>
+     </div>
+    </div>
+   </div>
+  </div><!-- GAME SCREEN -->
+  <div id="game-screen" class="hidden min-h-full relative z-10"><button onclick="exitGame()" class="fixed top-4 left-4 z-50 btn-3d bg-white/90 text-purple-700 font-bold px-4 py-2 rounded-xl flex items-center gap-2 shadow-lg"> ← Salir </button> <!-- Game Stats Bar -->
+   <div class="fixed top-4 right-4 z-50 flex items-center gap-3">
+    <div class="bg-white/90 rounded-xl px-3 py-2 shadow-lg flex items-center gap-2"><span class="text-lg">❓</span> <span id="game-question-num" class="font-bold text-purple-700">1/10</span>
+    </div>
+    <div class="bg-white/90 rounded-xl px-3 py-2 shadow-lg flex items-center gap-2"><span class="text-lg">⭐</span> <span id="game-score" class="font-bold text-yellow-600">0</span>
+    </div>
+   </div>
+   <div class="p-4 md:p-6 pt-20 max-w-4xl mx-auto">
+    <div id="game-container" class="glass-effect rounded-3xl p-6 md:p-8"><!-- Game content loaded dynamically -->
+    </div>
+   </div>
+  </div><!-- SHOP MODAL -->
+  <div id="shop-modal" class="hidden fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4">
+   <div class="glass-effect rounded-3xl p-6 md:p-8 max-w-md w-full max-h-[85%] overflow-auto shadow-2xl slide-in-animation">
+    <div class="flex justify-between items-center mb-6">
+     <h3 class="text-2xl font-bold text-purple-700 flex items-center gap-2">🛒 Tienda</h3><button onclick="closeShop()" class="text-3xl text-gray-400 hover:text-red-500">✕</button>
+    </div><!-- Current Stars -->
+    <div class="bg-yellow-100 rounded-xl p-4 mb-6 text-center">
+     <p class="text-sm text-yellow-700">Tus estrellas</p>
+     <p class="text-3xl font-bold text-yellow-600 flex items-center justify-center gap-2"><span class="sparkle-animation">⭐</span> <span id="shop-stars">0</span></p>
+    </div><!-- Shop Items -->
+    <div class="space-y-4"><!-- 1 Heart -->
+     <div class="bg-white rounded-xl p-4 flex items-center justify-between shadow">
+      <div class="flex items-center gap-3"><span class="text-3xl">❤️</span>
+       <div>
+        <p class="font-bold text-gray-700">+1 Vida</p>
+        <p class="text-sm text-gray-500">Recupera un corazón</p>
+       </div>
+      </div><button onclick="buyItem('heart1', 5)" class="btn-3d bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold px-4 py-2 rounded-xl flex items-center gap-1"> 5 ⭐ </button>
+     </div><!-- 3 Hearts -->
+     <div class="bg-white rounded-xl p-4 flex items-center justify-between shadow">
+      <div class="flex items-center gap-3"><span class="text-3xl">💕</span>
+       <div>
+        <p class="font-bold text-gray-700">+3 Vidas</p>
+        <p class="text-sm text-gray-500">Recupera tres corazones</p>
+       </div>
+      </div><button onclick="buyItem('heart3', 12)" class="btn-3d bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold px-4 py-2 rounded-xl flex items-center gap-1"> 12 ⭐ </button>
+     </div><!-- Full Hearts -->
+     <div class="bg-gradient-to-r from-pink-100 to-red-100 rounded-xl p-4 flex items-center justify-between shadow border-2 border-pink-300">
+      <div class="flex items-center gap-3"><span class="text-3xl heart-beat-animation">💖</span>
+       <div>
+        <p class="font-bold text-pink-700">Vidas Completas</p>
+        <p class="text-sm text-pink-600">¡Llena todos tus corazones!</p>
+       </div>
+      </div><button onclick="buyItem('heartFull', 20)" class="btn-3d bg-gradient-to-r from-pink-500 to-red-500 text-white font-bold px-4 py-2 rounded-xl flex items-center gap-1"> 20 ⭐ </button>
+     </div><!-- Streak Shield -->
+     <div class="bg-gradient-to-r from-orange-100 to-yellow-100 rounded-xl p-4 flex items-center justify-between shadow border-2 border-orange-300">
+      <div class="flex items-center gap-3"><span class="text-3xl">🛡️</span>
+       <div>
+        <p class="font-bold text-orange-700">Escudo de Racha</p>
+        <p class="text-sm text-orange-600">Protege tu racha por 1 error</p>
+       </div>
+      </div><button onclick="buyItem('shield', 15)" class="btn-3d bg-gradient-to-r from-orange-400 to-yellow-400 text-white font-bold px-4 py-2 rounded-xl flex items-center gap-1"> 15 ⭐ </button>
+     </div>
+    </div><!-- Shop Message -->
+    <div id="shop-message" class="hidden mt-4 p-3 rounded-xl text-center font-bold"></div>
+   </div>
+  </div><!-- GAME RESULT MODAL -->
+  <div id="result-modal" class="hidden fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4">
+   <div class="glass-effect rounded-3xl p-8 max-w-md w-full text-center shadow-2xl slide-in-animation">
+    <div id="result-icon" class="text-8xl mb-4">
+     🎉
+    </div>
+    <h3 id="result-title" class="text-3xl font-bold text-purple-700 mb-2">¡Excelente!</h3>
+    <p id="result-message" class="text-gray-600 mb-4">Has completado el juego</p>
+    <div class="bg-yellow-100 rounded-xl p-4 mb-6">
+     <p class="text-sm text-yellow-700">Estrellas ganadas</p>
+     <p class="text-4xl font-bold text-yellow-600 flex items-center justify-center gap-2"><span class="sparkle-animation">⭐</span> <span id="result-stars">0</span></p>
+    </div>
+    <div class="flex flex-col gap-3"><button onclick="playAgain()" class="btn-3d bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold py-3 rounded-xl"> 🔄 Jugar de Nuevo </button> <button onclick="closeResultAndGoBack()" class="btn-3d bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold py-3 rounded-xl"> 📚 Volver a Materias </button>
+    </div>
+   </div>
+  </div><!-- NO LIVES MODAL -->
+  <div id="no-lives-modal" class="hidden fixed inset-0 modal-overlay z-50 flex items-center justify-center p-4">
+   <div class="glass-effect rounded-3xl p-8 max-w-md w-full text-center shadow-2xl slide-in-animation">
+    <div class="text-8xl mb-4">
+     💔
+    </div>
+    <h3 class="text-2xl font-bold text-red-600 mb-2">¡Sin Vidas!</h3>
+    <p class="text-gray-600 mb-6">Necesitas vidas para jugar. Visita la tienda para comprar más con tus estrellas.</p>
+    <div class="flex flex-col gap-3"><button onclick="closeNoLivesAndOpenShop()" class="btn-3d bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-bold py-3 rounded-xl"> 🛒 Ir a la Tienda </button> <button onclick="closeNoLivesModal()" class="btn-3d bg-gray-400 text-white font-bold py-3 rounded-xl"> Cerrar </button>
+    </div>
+   </div>
+  </div>
+  <script>
+    // ==================== CONFIGURATION ====================
+    const CONFIG = {
+      username: 'V.CARRANZA',
+      password: 'VENUS20-26*',
+      maxLives: 5,
+      startsPerCorrect: 1,
+      bonusStarsComplete: 3
+    };
+
+    // ==================== GAME STATE ====================
+    let gameState = {
+      lives: 5,
+      stars: 0,
+      streak: 0,
+      shield: false,
+      gamesCompleted: 0,
+      currentPhase: null,
+      currentSubject: null,
+      currentGame: null,
+      currentQuestion: 0,
+      score: 0,
+      questions: [],
+      dailyGames: 0
+    };
+
+    // ==================== DEFAULT CONFIG ====================
+    const defaultConfig = {
+      school_title: 'ESCUELA PRIMARIA VENUSTIANO CARRANZA',
+      subtitle: 'Mi Aula Interactiva'
+    };
+
+    let config = { ...defaultConfig };
+
+    // ==================== ELEMENT SDK INIT ====================
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange: async (newConfig) => {
+          config = { ...config, ...newConfig };
+        },
+        mapToCapabilities: (cfg) => ({
+          recolorables: [],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (cfg) => new Map([
+          ['school_title', cfg.school_title || defaultConfig.school_title],
+          ['subtitle', cfg.subtitle || defaultConfig.subtitle]
+        ])
+      });
+    }
+
+    // ==================== EDUCATIONAL CONTENT ====================
+    const SUBJECTS = {
+      math: { name: 'Matemáticas', emoji: '🔢', class: 'subject-math' },
+      spanish: { name: 'Español', emoji: '📝', class: 'subject-spanish' },
+      science: { name: 'Ciencias Naturales', emoji: '🔬', class: 'subject-science' },
+      socio: { name: 'Ed. Socioemocional', emoji: '💚', class: 'subject-socio' },
+      history: { name: 'Historia y Geografía', emoji: '🗺️', class: 'subject-history' },
+      finance: { name: 'Ed. Financiera', emoji: '💰', class: 'subject-finance' }
+    };
+
+    // Phase 3 Questions (1st-2nd Grade)
+    const PHASE3_QUESTIONS = {
+      math: [
+        { q: '¿Cuánto es 2 + 3?', options: ['4', '5', '6', '7'], correct: 1 },
+        { q: '¿Cuánto es 5 + 2?', options: ['6', '7', '8', '9'], correct: 1 },
+        { q: '¿Cuánto es 4 - 1?', options: ['2', '3', '4', '5'], correct: 1 },
+        { q: '¿Qué número sigue? 1, 2, 3, __', options: ['4', '5', '6', '7'], correct: 0 },
+        { q: '¿Cuánto es 3 + 3?', options: ['5', '6', '7', '8'], correct: 1 },
+        { q: '¿Cuántos lados tiene un triángulo?', options: ['2', '3', '4', '5'], correct: 1 },
+        { q: '¿Cuánto es 10 - 5?', options: ['4', '5', '6', '7'], correct: 1 },
+        { q: '¿Cuál es mayor: 8 o 5?', options: ['5', '8', 'Son iguales', 'No sé'], correct: 1 },
+        { q: '¿Cuánto es 1 + 1?', options: ['1', '2', '3', '4'], correct: 1 },
+        { q: '¿Cuántas patas tiene un perro?', options: ['2', '3', '4', '5'], correct: 2 },
+        { q: '¿Cuánto es 7 - 2?', options: ['4', '5', '6', '7'], correct: 1 },
+        { q: '¿Cuánto es 2 + 2?', options: ['2', '3', '4', '5'], correct: 2 },
+        { q: '¿Qué figura tiene 4 lados iguales?', options: ['Círculo', 'Triángulo', 'Cuadrado', 'Óvalo'], correct: 2 },
+        { q: '¿Cuánto es 6 + 1?', options: ['6', '7', '8', '9'], correct: 1 },
+        { q: '¿Cuánto es 9 - 4?', options: ['4', '5', '6', '7'], correct: 1 }
+      ],
+      spanish: [
+        { q: '¿Con qué letra empieza "Mamá"?', options: ['P', 'M', 'S', 'A'], correct: 1 },
+        { q: '¿Cuántas vocales tiene "Casa"?', options: ['1', '2', '3', '4'], correct: 1 },
+        { q: '¿Qué palabra rima con "Gato"?', options: ['Perro', 'Pato', 'Luna', 'Sol'], correct: 1 },
+        { q: '¿Cuál es una vocal?', options: ['B', 'C', 'E', 'F'], correct: 2 },
+        { q: '¿Con qué letra empieza "Sol"?', options: ['S', 'C', 'Z', 'X'], correct: 0 },
+        { q: '¿Qué animal dice "Miau"?', options: ['Perro', 'Gato', 'Vaca', 'Pato'], correct: 1 },
+        { q: '¿Cuántas letras tiene "Luna"?', options: ['3', '4', '5', '6'], correct: 1 },
+        { q: '¿Qué palabra empieza con "P"?', options: ['Gato', 'Perro', 'Mesa', 'Silla'], correct: 1 },
+        { q: '¿Cuál es consonante?', options: ['A', 'E', 'B', 'O'], correct: 2 },
+        { q: '¿Con qué vocal empieza "Elefante"?', options: ['A', 'E', 'I', 'O'], correct: 1 },
+        { q: '¿Qué palabra rima con "Mesa"?', options: ['Silla', 'Pesa', 'Libro', 'Lápiz'], correct: 1 },
+        { q: '¿Cuántas sílabas tiene "Papá"?', options: ['1', '2', '3', '4'], correct: 1 },
+        { q: '¿Con qué letra termina "Flor"?', options: ['F', 'L', 'O', 'R'], correct: 3 },
+        { q: '¿Cuál es un nombre propio?', options: ['perro', 'María', 'casa', 'árbol'], correct: 1 },
+        { q: '¿Qué palabra tiene 3 sílabas?', options: ['Sol', 'Casa', 'Mariposa', 'Pelota'], correct: 3 }
+      ],
+      science: [
+        { q: '¿De qué color es el cielo?', options: ['Rojo', 'Azul', 'Verde', 'Amarillo'], correct: 1 },
+        { q: '¿Qué necesitan las plantas para vivir?', options: ['Piedras', 'Agua y sol', 'Arena', 'Plástico'], correct: 1 },
+        { q: '¿Cuántas patas tiene una araña?', options: ['4', '6', '8', '10'], correct: 2 },
+        { q: '¿De dónde viene la lluvia?', options: ['Del sol', 'De las nubes', 'Del mar', 'De la tierra'], correct: 1 },
+        { q: '¿Qué animal vuela?', options: ['Perro', 'Pez', 'Pájaro', 'Vaca'], correct: 2 },
+        { q: '¿Qué parte del cuerpo usas para oír?', options: ['Ojos', 'Nariz', 'Oídos', 'Boca'], correct: 2 },
+        { q: '¿Qué sale de día?', options: ['Luna', 'Estrellas', 'Sol', 'Nube negra'], correct: 2 },
+        { q: '¿Dónde viven los peces?', options: ['Aire', 'Agua', 'Tierra', 'Fuego'], correct: 1 },
+        { q: '¿Cuántos sentidos tenemos?', options: ['3', '4', '5', '6'], correct: 2 },
+        { q: '¿Qué animal produce miel?', options: ['Mariposa', 'Abeja', 'Mosca', 'Hormiga'], correct: 1 },
+        { q: '¿De qué color son las hojas?', options: ['Azules', 'Rojas', 'Verdes', 'Moradas'], correct: 2 },
+        { q: '¿Qué usamos para ver?', options: ['Nariz', 'Ojos', 'Boca', 'Manos'], correct: 1 },
+        { q: '¿Qué animal tiene caparazón?', options: ['Perro', 'Tortuga', 'Gato', 'Conejo'], correct: 1 },
+        { q: '¿Cuántas estaciones hay?', options: ['2', '3', '4', '5'], correct: 2 },
+        { q: '¿Qué necesitamos para respirar?', options: ['Agua', 'Aire', 'Comida', 'Luz'], correct: 1 }
+      ],
+      socio: [
+        { q: '¿Qué es la amistad?', options: ['Pelearse', 'Quererse y ayudarse', 'Ignorarse', 'Gritar'], correct: 1 },
+        { q: '¿Qué dices cuando te dan algo?', options: ['Nada', 'Gracias', 'Dame más', 'No quiero'], correct: 1 },
+        { q: '¿Cómo te sientes cuando te abrazan?', options: ['Triste', 'Enojado', 'Feliz', 'Asustado'], correct: 2 },
+        { q: '¿Qué haces si un amigo llora?', options: ['Te ríes', 'Lo ignoras', 'Lo consuelas', 'Te vas'], correct: 2 },
+        { q: '¿Qué es el respeto?', options: ['Gritar', 'Tratar bien a otros', 'Pelear', 'Mentir'], correct: 1 },
+        { q: '¿Cómo expresas que estás feliz?', options: ['Llorando', 'Gritando', 'Sonriendo', 'Peleando'], correct: 2 },
+        { q: '¿Qué dices cuando llegas a clase?', options: ['Nada', 'Buenos días', 'Adiós', 'Hasta luego'], correct: 1 },
+        { q: '¿Cómo puedes ayudar en casa?', options: ['No haciendo nada', 'Ordenando tus cosas', 'Gritando', 'Durmiendo'], correct: 1 },
+        { q: '¿Qué haces si te sientes triste?', options: ['Te escondes', 'Hablas con alguien', 'Gritas', 'Pegas'], correct: 1 },
+        { q: '¿Por qué es importante compartir?', options: ['No es importante', 'Hace felices a otros', 'Para tener menos', 'Es aburrido'], correct: 1 },
+        { q: '¿Qué es la honestidad?', options: ['Mentir', 'Decir la verdad', 'Esconderse', 'Gritar'], correct: 1 },
+        { q: '¿Cómo saludas a tu maestra?', options: ['No la miras', 'Con respeto', 'Gritando', 'Corriendo'], correct: 1 },
+        { q: '¿Qué haces si cometes un error?', options: ['Culpas a otro', 'Pides disculpas', 'Te escondes', 'Gritas'], correct: 1 },
+        { q: '¿Cómo te sientes al lograr algo difícil?', options: ['Triste', 'Orgulloso', 'Enojado', 'Aburrido'], correct: 1 },
+        { q: '¿Qué significa ser paciente?', options: ['Gritar', 'Saber esperar', 'Correr', 'Pelear'], correct: 1 }
+      ],
+      history: [
+        { q: '¿Cómo se llama nuestro país?', options: ['España', 'México', 'Argentina', 'Chile'], correct: 1 },
+        { q: '¿De qué color es la bandera de México?', options: ['Azul y blanco', 'Verde, blanco y rojo', 'Amarillo y negro', 'Rojo y azul'], correct: 1 },
+        { q: '¿Qué hay en el centro de la bandera?', options: ['Una flor', 'Un águila', 'Un sol', 'Una estrella'], correct: 1 },
+        { q: '¿Cómo se llama donde vivimos?', options: ['Colonia', 'Comunidad', 'Las dos', 'Ninguna'], correct: 2 },
+        { q: '¿Qué es un mapa?', options: ['Un dibujo de lugares', 'Una foto', 'Un juguete', 'Una comida'], correct: 0 },
+        { q: '¿Quiénes vivían en México antes?', options: ['Dinosaurios', 'Pueblos indígenas', 'Robots', 'Extraterrestres'], correct: 1 },
+        { q: '¿Qué celebramos el 16 de septiembre?', options: ['Navidad', 'Independencia', 'Mi cumpleaños', 'Halloween'], correct: 1 },
+        { q: '¿Qué es una familia?', options: ['Extraños', 'Personas que se quieren', 'Animales', 'Plantas'], correct: 1 },
+        { q: '¿Dónde aprendemos?', options: ['Tienda', 'Escuela', 'Cine', 'Parque'], correct: 1 },
+        { q: '¿Qué es una tradición?', options: ['Algo nuevo', 'Costumbre que se repite', 'Un juego', 'Una comida'], correct: 1 },
+        { q: '¿Cuál es la capital de México?', options: ['Monterrey', 'Ciudad de México', 'Guadalajara', 'Cancún'], correct: 1 },
+        { q: '¿Qué celebramos el 20 de noviembre?', options: ['Revolución', 'Navidad', 'Año nuevo', 'Día del niño'], correct: 0 },
+        { q: '¿Qué forma tiene México?', options: ['Cuadrado', 'Un cuerno', 'Círculo', 'Triángulo'], correct: 1 },
+        { q: '¿Quién es el presidente?', options: ['El rey', 'El que gobierna el país', 'El maestro', 'El doctor'], correct: 1 },
+        { q: '¿Qué es un pueblo?', options: ['Una ciudad grande', 'Un lugar pequeño', 'Un animal', 'Una planta'], correct: 1 }
+      ],
+      finance: [
+        { q: '¿Para qué sirve el dinero?', options: ['Para jugar', 'Para comprar cosas', 'Para tirar', 'Para romper'], correct: 1 },
+        { q: '¿Qué es ahorrar?', options: ['Gastar todo', 'Guardar dinero', 'Perder dinero', 'Tirar dinero'], correct: 1 },
+        { q: '¿Dónde guardamos el dinero?', options: ['En la basura', 'En una alcancía', 'En el piso', 'En el jardín'], correct: 1 },
+        { q: '¿Qué hacemos si queremos algo pero no alcanza el dinero?', options: ['Lloramos', 'Ahorramos', 'Robamos', 'Gritamos'], correct: 1 },
+        { q: '¿Es bueno gastar todo el dinero de una vez?', options: ['Sí, siempre', 'No, es mejor ahorrar', 'Da igual', 'Sí, es divertido'], correct: 1 },
+        { q: '¿Qué es una necesidad?', options: ['Un juguete', 'Algo que necesitamos para vivir', 'Un dulce', 'Un videojuego'], correct: 1 },
+        { q: '¿Cuál es una necesidad básica?', options: ['Videojuegos', 'Comida', 'Juguetes', 'Dulces'], correct: 1 },
+        { q: '¿Qué es un deseo?', options: ['Algo necesario', 'Algo que queremos pero no necesitamos', 'Comida', 'Agua'], correct: 1 },
+        { q: '¿Es bueno compartir?', options: ['No', 'Sí', 'A veces no', 'Nunca'], correct: 1 },
+        { q: '¿Cómo obtenemos dinero de grandes?', options: ['Lo encontramos', 'Trabajando', 'Lo robamos', 'Cae del cielo'], correct: 1 },
+        { q: '¿Qué es un precio?', options: ['Un nombre', 'Lo que cuesta algo', 'Un color', 'Un sabor'], correct: 1 },
+        { q: '¿Qué hacemos con el cambio de la tienda?', options: ['Lo tiramos', 'Lo guardamos', 'Lo perdemos', 'Lo rompemos'], correct: 1 },
+        { q: '¿Es importante cuidar nuestras cosas?', options: ['No', 'Sí', 'Da igual', 'Nunca'], correct: 1 },
+        { q: '¿Qué podemos hacer para ayudar en casa?', options: ['Nada', 'Ayudar con tareas', 'Romper cosas', 'Gritar'], correct: 1 },
+        { q: '¿Por qué es bueno ahorrar?', options: ['No es bueno', 'Para comprar cosas después', 'Para perder dinero', 'Para tirarlo'], correct: 1 }
+      ]
+    };
+
+    // Phase 4 Questions (3rd-4th Grade)
+    const PHASE4_QUESTIONS = {
+      math: [
+        { q: '¿Cuánto es 25 + 17?', options: ['40', '42', '44', '45'], correct: 1 },
+        { q: '¿Cuánto es 8 × 7?', options: ['54', '56', '58', '63'], correct: 1 },
+        { q: '¿Cuánto es 100 - 45?', options: ['45', '55', '65', '50'], correct: 1 },
+        { q: '¿Cuánto es 9 × 6?', options: ['52', '54', '56', '58'], correct: 1 },
+        { q: '¿Cuánto es 72 ÷ 8?', options: ['8', '9', '10', '11'], correct: 1 },
+        { q: '¿Qué fracción representa la mitad?', options: ['1/3', '1/2', '1/4', '2/3'], correct: 1 },
+        { q: '¿Cuánto es 6 × 8?', options: ['46', '48', '50', '52'], correct: 1 },
+        { q: '¿Cuántos minutos tiene una hora?', options: ['30', '45', '60', '100'], correct: 2 },
+        { q: '¿Cuánto es 45 + 38?', options: ['81', '83', '85', '87'], correct: 1 },
+        { q: '¿Cuánto es 7 × 7?', options: ['47', '49', '51', '56'], correct: 1 },
+        { q: '¿Cuál número es par?', options: ['13', '17', '24', '31'], correct: 2 },
+        { q: '¿Cuánto es 81 ÷ 9?', options: ['7', '8', '9', '10'], correct: 2 },
+        { q: '¿Qué es 1/4 de 20?', options: ['4', '5', '6', '10'], correct: 1 },
+        { q: '¿Cuánto es 150 - 75?', options: ['65', '70', '75', '80'], correct: 2 },
+        { q: '¿Cuántas caras tiene un cubo?', options: ['4', '5', '6', '8'], correct: 2 }
+      ],
+      spanish: [
+        { q: '¿Qué es un sustantivo?', options: ['Acción', 'Nombre de persona, animal o cosa', 'Cualidad', 'Cantidad'], correct: 1 },
+        { q: '¿Cuál es el verbo en "El niño corre rápido"?', options: ['niño', 'corre', 'rápido', 'el'], correct: 1 },
+        { q: '¿Qué tipo de palabra es "hermoso"?', options: ['Sustantivo', 'Verbo', 'Adjetivo', 'Adverbio'], correct: 2 },
+        { q: '¿Qué signo va al final de una pregunta?', options: ['.', ',', '!', '?'], correct: 3 },
+        { q: '¿Cuántas sílabas tiene "mariposa"?', options: ['3', '4', '5', '6'], correct: 1 },
+        { q: '¿Qué es un sinónimo?', options: ['Palabra opuesta', 'Palabra igual significado', 'Palabra rara', 'Palabra larga'], correct: 1 },
+        { q: '¿Cuál es el antónimo de "grande"?', options: ['Enorme', 'Pequeño', 'Alto', 'Gordo'], correct: 1 },
+        { q: '¿Qué es una oración?', options: ['Una palabra', 'Grupo de palabras con sentido', 'Una letra', 'Un dibujo'], correct: 1 },
+        { q: '¿Dónde va el acento en "música"?', options: ['mu', 'si', 'ca', 'No tiene'], correct: 0 },
+        { q: '¿Qué es un cuento?', options: ['Una poesía', 'Una narración corta', 'Una canción', 'Un dibujo'], correct: 1 },
+        { q: '¿Qué tipo de texto da instrucciones?', options: ['Cuento', 'Poema', 'Instructivo', 'Leyenda'], correct: 2 },
+        { q: '¿Cuál palabra está bien escrita?', options: ['Haber', 'Haver', 'Aber', 'Abeer'], correct: 0 },
+        { q: '¿Qué es una leyenda?', options: ['Historia inventada tradicional', 'Noticia', 'Carta', 'Receta'], correct: 0 },
+        { q: '¿Qué es el sujeto de una oración?', options: ['La acción', 'Quien realiza la acción', 'El lugar', 'El tiempo'], correct: 1 },
+        { q: '¿Cuál es plural de "lápiz"?', options: ['Lápizes', 'Lápices', 'Lápisces', 'Lápiz'], correct: 1 }
+      ],
+      science: [
+        { q: '¿Cuál es el planeta más cercano al Sol?', options: ['Venus', 'Mercurio', 'Tierra', 'Marte'], correct: 1 },
+        { q: '¿Qué órgano bombea la sangre?', options: ['Pulmones', 'Cerebro', 'Corazón', 'Estómago'], correct: 2 },
+        { q: '¿Qué son los anfibios?', options: ['Solo viven en agua', 'Viven en agua y tierra', 'Solo viven en tierra', 'Vuelan'], correct: 1 },
+        { q: '¿Cuál es el estado del agua en cubos de hielo?', options: ['Líquido', 'Gaseoso', 'Sólido', 'Plasma'], correct: 2 },
+        { q: '¿Qué parte de la planta absorbe agua?', options: ['Hojas', 'Flores', 'Raíz', 'Tallo'], correct: 2 },
+        { q: '¿Qué es la fotosíntesis?', options: ['Respiración', 'Plantas hacen alimento con luz', 'Movimiento', 'Crecimiento'], correct: 1 },
+        { q: '¿Cuántos planetas hay en nuestro sistema solar?', options: ['7', '8', '9', '10'], correct: 1 },
+        { q: '¿Qué tipo de animal es la ballena?', options: ['Pez', 'Mamífero', 'Anfibio', 'Reptil'], correct: 1 },
+        { q: '¿Qué produce el sonido?', options: ['Luz', 'Vibraciones', 'Calor', 'Frío'], correct: 1 },
+        { q: '¿Cuál es el hueso más largo del cuerpo?', options: ['Húmero', 'Fémur', 'Tibia', 'Radio'], correct: 1 },
+        { q: '¿Qué es un ecosistema?', options: ['Un animal', 'Seres vivos y su ambiente', 'Una planta', 'Una roca'], correct: 1 },
+        { q: '¿Qué capa protege la Tierra de rayos solares?', options: ['Troposfera', 'Ozono', 'Estratosfera', 'Mesosfera'], correct: 1 },
+        { q: '¿De qué está hecha la Luna?', options: ['Queso', 'Roca', 'Hielo', 'Nubes'], correct: 1 },
+        { q: '¿Qué órgano usamos para pensar?', options: ['Corazón', 'Pulmones', 'Cerebro', 'Hígado'], correct: 2 },
+        { q: '¿Qué animal es invertebrado?', options: ['Perro', 'Mariposa', 'Gato', 'Caballo'], correct: 1 }
+      ],
+      socio: [
+        { q: '¿Qué es la empatía?', options: ['Ignorar a otros', 'Entender sentimientos de otros', 'Enojarse', 'Gritar'], correct: 1 },
+        { q: '¿Cómo manejas el enojo?', options: ['Pegando', 'Respirando hondo', 'Gritando', 'Rompiendo cosas'], correct: 1 },
+        { q: '¿Qué es el trabajo en equipo?', options: ['Trabajar solo', 'Colaborar con otros', 'Competir', 'Pelear'], correct: 1 },
+        { q: '¿Por qué es importante la comunicación?', options: ['No es importante', 'Para entendernos', 'Para pelear', 'Para gritar'], correct: 1 },
+        { q: '¿Qué es la autoestima?', options: ['Odiarse', 'Quererse a uno mismo', 'Ignorarse', 'Enojarse'], correct: 1 },
+        { q: '¿Cómo resuelves un conflicto?', options: ['Peleando', 'Hablando y negociando', 'Ignorando', 'Gritando'], correct: 1 },
+        { q: '¿Qué es ser responsable?', options: ['No hacer nada', 'Cumplir compromisos', 'Olvidar todo', 'Mentir'], correct: 1 },
+        { q: '¿Cómo demuestras respeto?', options: ['Interrumpiendo', 'Escuchando a otros', 'Burlándote', 'Ignorando'], correct: 1 },
+        { q: '¿Qué haces ante un problema?', options: ['Huyes', 'Buscas soluciones', 'Lloras', 'Te rindes'], correct: 1 },
+        { q: '¿Por qué son importantes las reglas?', options: ['No lo son', 'Para convivir mejor', 'Para molestar', 'Para castigar'], correct: 1 },
+        { q: '¿Qué es la tolerancia?', options: ['Rechazar diferencias', 'Aceptar diferencias', 'Ignorar a otros', 'Burlarse'], correct: 1 },
+        { q: '¿Cómo pides ayuda?', options: ['No la pido', 'Con respeto', 'Gritando', 'Exigiendo'], correct: 1 },
+        { q: '¿Qué es la gratitud?', options: ['Quejarse', 'Agradecer lo que tienes', 'Pedir más', 'Enojarse'], correct: 1 },
+        { q: '¿Cómo manejas la frustración?', options: ['Pegando', 'Siendo paciente', 'Llorando siempre', 'Rindiéndote'], correct: 1 },
+        { q: '¿Qué significa ser justo?', options: ['Favorecer a uno', 'Tratar a todos igual', 'Hacer trampa', 'Mentir'], correct: 1 }
+      ],
+      history: [
+        { q: '¿Quiénes fueron los aztecas?', options: ['Españoles', 'Pueblo indígena de México', 'Franceses', 'Ingleses'], correct: 1 },
+        { q: '¿Qué año fue la Independencia de México?', options: ['1810', '1910', '1521', '1862'], correct: 0 },
+        { q: '¿Quién dio el Grito de Independencia?', options: ['Juárez', 'Hidalgo', 'Morelos', 'Zapata'], correct: 1 },
+        { q: '¿Qué es una cultura prehispánica?', options: ['Después de españoles', 'Antes de españoles', 'Actual', 'Futura'], correct: 1 },
+        { q: '¿Cuál era la capital azteca?', options: ['Tenochtitlan', 'Guadalajara', 'Monterrey', 'Oaxaca'], correct: 0 },
+        { q: '¿Qué cultivaban principalmente los mayas?', options: ['Trigo', 'Maíz', 'Arroz', 'Papa'], correct: 1 },
+        { q: '¿Qué océano está al oeste de México?', options: ['Atlántico', 'Pacífico', 'Índico', 'Ártico'], correct: 1 },
+        { q: '¿Qué río es frontera con Estados Unidos?', options: ['Amazonas', 'Bravo', 'Nilo', 'Misisipi'], correct: 1 },
+        { q: '¿Cuál es el volcán más alto de México?', options: ['Popocatépetl', 'Iztaccíhuatl', 'Pico de Orizaba', 'Paricutín'], correct: 2 },
+        { q: '¿Qué celebramos el 5 de mayo?', options: ['Independencia', 'Batalla de Puebla', 'Revolución', 'Navidad'], correct: 1 },
+        { q: '¿Quién fue Benito Juárez?', options: ['Rey', 'Presidente', 'Soldado', 'Artista'], correct: 1 },
+        { q: '¿Qué significa "mestizo"?', options: ['Solo indígena', 'Mezcla de razas', 'Solo español', 'Solo africano'], correct: 1 },
+        { q: '¿Cuántos estados tiene México?', options: ['30', '31', '32', '33'], correct: 2 },
+        { q: '¿Qué civilización construyó Chichén Itzá?', options: ['Aztecas', 'Mayas', 'Olmecas', 'Toltecas'], correct: 1 },
+        { q: '¿En qué continente está México?', options: ['Europa', 'América', 'Asia', 'África'], correct: 1 }
+      ],
+      finance: [
+        { q: '¿Qué es un presupuesto?', options: ['Gastar sin control', 'Plan para usar el dinero', 'Tirar dinero', 'No tener dinero'], correct: 1 },
+        { q: '¿Qué es un banco?', options: ['Tienda', 'Lugar para guardar dinero', 'Parque', 'Escuela'], correct: 1 },
+        { q: '¿Qué es una meta financiera?', options: ['No tener metas', 'Objetivo para tu dinero', 'Gastar todo', 'Perder dinero'], correct: 1 },
+        { q: '¿Qué es mejor: ahorrar o gastar todo?', options: ['Gastar todo', 'Ahorrar', 'Da igual', 'Perder'], correct: 1 },
+        { q: '¿Para qué sirve una alcancía?', options: ['Jugar', 'Guardar dinero', 'Decorar', 'Romper'], correct: 1 },
+        { q: '¿Qué es el trueque?', options: ['Comprar', 'Intercambiar sin dinero', 'Vender', 'Regalar'], correct: 1 },
+        { q: '¿Qué es gastar responsablemente?', options: ['Comprar todo', 'Solo lo necesario', 'Nada', 'Lo más caro'], correct: 1 },
+        { q: '¿Qué es una inversión?', options: ['Gastar', 'Usar dinero para ganar más', 'Perder', 'Tirar'], correct: 1 },
+        { q: '¿Por qué comparar precios?', options: ['No es necesario', 'Para ahorrar dinero', 'Para gastar más', 'Es aburrido'], correct: 1 },
+        { q: '¿Qué es una tarjeta de débito?', options: ['Juguete', 'Tarjeta para usar tu dinero del banco', 'Foto', 'Papel'], correct: 1 },
+        { q: '¿Qué es la publicidad?', options: ['Noticias', 'Mensajes para vender cosas', 'Cuentos', 'Películas'], correct: 1 },
+        { q: '¿Es necesario comprar todo lo que anuncia la TV?', options: ['Sí', 'No', 'Siempre', 'A veces sí'], correct: 1 },
+        { q: '¿Qué es un descuento?', options: ['Subir precio', 'Bajar precio', 'Igual precio', 'Sin precio'], correct: 1 },
+        { q: '¿Por qué es importante planear compras?', options: ['No es importante', 'Para no gastar de más', 'Para gastar más', 'Para perder'], correct: 1 },
+        { q: '¿Qué es una factura?', options: ['Juguete', 'Comprobante de compra', 'Carta', 'Dibujo'], correct: 1 }
+      ]
+    };
+
+    // Phase 5 Questions (5th-6th Grade)
+    const PHASE5_QUESTIONS = {
+      math: [
+        { q: '¿Cuánto es 345 + 678?', options: ['1,013', '1,023', '1,033', '1,043'], correct: 1 },
+        { q: '¿Cuánto es 12 × 15?', options: ['170', '175', '180', '185'], correct: 2 },
+        { q: '¿Cuánto es 1,000 - 367?', options: ['623', '633', '643', '653'], correct: 1 },
+        { q: '¿Qué es 25% de 200?', options: ['40', '50', '60', '75'], correct: 1 },
+        { q: '¿Cuánto es 144 ÷ 12?', options: ['10', '11', '12', '13'], correct: 2 },
+        { q: '¿Cuánto es 3/4 + 1/4?', options: ['1/2', '1', '4/4', 'Las últimas dos'], correct: 3 },
+        { q: '¿Cuál es el área de un cuadrado de lado 5?', options: ['10', '20', '25', '30'], correct: 2 },
+        { q: '¿Cuánto es 0.5 × 100?', options: ['5', '50', '500', '0.5'], correct: 1 },
+        { q: '¿Qué fracción es equivalente a 50%?', options: ['1/4', '1/3', '1/2', '2/3'], correct: 2 },
+        { q: '¿Cuánto es el perímetro de un rectángulo de 8×4?', options: ['12', '24', '32', '48'], correct: 1 },
+        { q: '¿Cuánto es 15²?', options: ['200', '215', '225', '250'], correct: 2 },
+        { q: '¿Cuánto es 1,234 + 5,678?', options: ['6,812', '6,902', '6,912', '7,012'], correct: 2 },
+        { q: '¿Qué es 10% de 1,000?', options: ['10', '100', '1,000', '10,000'], correct: 1 },
+        { q: '¿Cuánto es 2/5 en decimal?', options: ['0.2', '0.4', '0.5', '0.25'], correct: 1 },
+        { q: '¿Cuál es el volumen de un cubo de arista 3?', options: ['9', '18', '27', '36'], correct: 2 }
+      ],
+      spanish: [
+        { q: '¿Qué es un texto argumentativo?', options: ['Cuenta historia', 'Da opiniones con razones', 'Describe lugares', 'Da instrucciones'], correct: 1 },
+        { q: '¿Qué figura retórica es "duerme como tronco"?', options: ['Metáfora', 'Símil', 'Hipérbole', 'Personificación'], correct: 1 },
+        { q: '¿Qué es una biografía?', options: ['Historia inventada', 'Historia de la vida de alguien', 'Poema', 'Receta'], correct: 1 },
+        { q: '¿Cuál es el predicado en "María come manzanas"?', options: ['María', 'come', 'come manzanas', 'manzanas'], correct: 2 },
+        { q: '¿Qué es un ensayo?', options: ['Cuento', 'Texto que analiza un tema', 'Poema', 'Canción'], correct: 1 },
+        { q: '¿Qué son los conectores?', options: ['Sustantivos', 'Palabras que unen ideas', 'Verbos', 'Adjetivos'], correct: 1 },
+        { q: '¿Qué es una crónica?', options: ['Poema', 'Relato de hechos reales', 'Canción', 'Leyenda'], correct: 1 },
+        { q: '¿Cuál es palabra esdrújula?', options: ['Camión', 'Música', 'Papel', 'Corazón'], correct: 1 },
+        { q: '¿Qué es el narrador omnisciente?', options: ['No sabe nada', 'Sabe todo sobre personajes', 'Es un personaje', 'No existe'], correct: 1 },
+        { q: '¿Qué es un párrafo?', options: ['Una palabra', 'Conjunto de oraciones relacionadas', 'Una letra', 'Un dibujo'], correct: 1 },
+        { q: '¿Qué es la coherencia en un texto?', options: ['Sin sentido', 'Ideas bien conectadas', 'Palabras difíciles', 'Texto largo'], correct: 1 },
+        { q: '¿Qué es un guion largo (—)?', options: ['Resta', 'Indica diálogo', 'Pregunta', 'Exclamación'], correct: 1 },
+        { q: '¿Qué es un debate?', options: ['Monólogo', 'Discusión ordenada de ideas', 'Canción', 'Baile'], correct: 1 },
+        { q: '¿Qué tipo de texto es una receta?', options: ['Narrativo', 'Instructivo', 'Poético', 'Argumentativo'], correct: 1 },
+        { q: '¿Qué es el tema de un texto?', options: ['El título', 'La idea principal', 'El autor', 'La fecha'], correct: 1 }
+      ],
+      science: [
+        { q: '¿Qué es la célula?', options: ['Un órgano', 'Unidad básica de la vida', 'Un tejido', 'Un sistema'], correct: 1 },
+        { q: '¿Qué tipo de energía produce el sol?', options: ['Química', 'Nuclear y luminosa', 'Mecánica', 'Sonora'], correct: 1 },
+        { q: '¿Qué es la gravedad?', options: ['Fuerza de repulsión', 'Fuerza de atracción', 'Luz', 'Sonido'], correct: 1 },
+        { q: '¿Cuál es la función del sistema digestivo?', options: ['Respirar', 'Procesar alimentos', 'Pensar', 'Moverse'], correct: 1 },
+        { q: '¿Qué es un átomo?', options: ['Célula', 'Partícula más pequeña de un elemento', 'Molécula', 'Tejido'], correct: 1 },
+        { q: '¿Qué causa las estaciones del año?', options: ['La luna', 'La inclinación de la Tierra', 'Las nubes', 'El viento'], correct: 1 },
+        { q: '¿Qué es la cadena alimenticia?', options: ['Collar', 'Relación de quién come a quién', 'Comida', 'Receta'], correct: 1 },
+        { q: '¿Qué es la pubertad?', options: ['Enfermedad', 'Etapa de cambios físicos', 'Deporte', 'Comida'], correct: 1 },
+        { q: '¿Qué es el ADN?', options: ['Vitamina', 'Material genético', 'Hormona', 'Proteína'], correct: 1 },
+        { q: '¿Qué es la contaminación?', options: ['Limpieza', 'Daño al ambiente', 'Construcción', 'Agricultura'], correct: 1 },
+        { q: '¿Qué es un volcán?', options: ['Montaña inactiva', 'Abertura que expulsa magma', 'Río', 'Lago'], correct: 1 },
+        { q: '¿Qué es el sistema nervioso?', options: ['Digestión', 'Control del cuerpo y sentidos', 'Respiración', 'Circulación'], correct: 1 },
+        { q: '¿Qué es la energía renovable?', options: ['Se acaba', 'Se regenera naturalmente', 'Es cara', 'No existe'], correct: 1 },
+        { q: '¿Qué es un terremoto?', options: ['Viento', 'Movimiento de la tierra', 'Lluvia', 'Nieve'], correct: 1 },
+        { q: '¿Qué es la biodiversidad?', options: ['Una especie', 'Variedad de seres vivos', 'Un lugar', 'Una planta'], correct: 1 }
+      ],
+      socio: [
+        { q: '¿Qué es la identidad personal?', options: ['Nombre', 'Quién eres y tus características únicas', 'Edad', 'Dirección'], correct: 1 },
+        { q: '¿Cómo se desarrolla el pensamiento crítico?', options: ['No pensando', 'Cuestionando y analizando', 'Copiando', 'Ignorando'], correct: 1 },
+        { q: '¿Qué es la resiliencia?', options: ['Rendirse', 'Superar dificultades', 'Ignorar problemas', 'Evitar todo'], correct: 1 },
+        { q: '¿Por qué es importante la diversidad?', options: ['No lo es', 'Enriquece la sociedad', 'Causa problemas', 'Es mala'], correct: 1 },
+        { q: '¿Qué es el acoso escolar?', options: ['Juego', 'Violencia entre estudiantes', 'Deporte', 'Clase'], correct: 1 },
+        { q: '¿Cómo previenes el acoso?', options: ['Participando', 'Denunciando y respetando', 'Ignorando', 'Uniéndote'], correct: 1 },
+        { q: '¿Qué es un proyecto de vida?', options: ['Tarea', 'Planear tu futuro', 'Juego', 'Examen'], correct: 1 },
+        { q: '¿Qué son los derechos humanos?', options: ['Privilegios', 'Garantías para todos', 'Leyes opcionales', 'Sugerencias'], correct: 1 },
+        { q: '¿Qué es la ciudadanía?', options: ['Ser extranjero', 'Participar en la comunidad', 'Ignorar reglas', 'Vivir solo'], correct: 1 },
+        { q: '¿Por qué es importante votar?', options: ['No lo es', 'Para elegir representantes', 'Es obligatorio', 'Por diversión'], correct: 1 },
+        { q: '¿Qué es la equidad de género?', options: ['Desigualdad', 'Igualdad entre hombres y mujeres', 'Solo mujeres', 'Solo hombres'], correct: 1 },
+        { q: '¿Cómo expresas tus opiniones respetuosamente?', options: ['Gritando', 'Escuchando y dialogando', 'Imponiendo', 'Callando'], correct: 1 },
+        { q: '¿Qué es la mediación?', options: ['Pelear', 'Ayudar a resolver conflictos', 'Ignorar', 'Huir'], correct: 1 },
+        { q: '¿Qué es el autoconocimiento?', options: ['Ignorarse', 'Conocer tus fortalezas y debilidades', 'Presumir', 'Esconderse'], correct: 1 },
+        { q: '¿Por qué es importante la ética?', options: ['No lo es', 'Guía nuestras acciones correctas', 'Es aburrida', 'Es opcional'], correct: 1 }
+      ],
+      history: [
+        { q: '¿Qué fue la Revolución Mexicana?', options: ['Fiesta', 'Movimiento armado por justicia social', 'Deporte', 'Concurso'], correct: 1 },
+        { q: '¿En qué año empezó la Revolución?', options: ['1810', '1862', '1910', '1917'], correct: 2 },
+        { q: '¿Quién fue Emiliano Zapata?', options: ['Presidente', 'Líder revolucionario', 'Artista', 'Científico'], correct: 1 },
+        { q: '¿Qué es el tratado de libre comercio (TLCAN/T-MEC)?', options: ['Guerra', 'Acuerdo comercial', 'Deporte', 'Comida'], correct: 1 },
+        { q: '¿Qué es la Constitución?', options: ['Libro de cuentos', 'Ley máxima del país', 'Canción', 'Película'], correct: 1 },
+        { q: '¿En qué año se promulgó la Constitución actual?', options: ['1810', '1857', '1917', '2000'], correct: 2 },
+        { q: '¿Qué fue el Porfiriato?', options: ['Fiesta', 'Gobierno de Porfirio Díaz', 'Revolución', 'Guerra'], correct: 1 },
+        { q: '¿Qué países forman América del Norte?', options: ['Solo México', 'México, EUA y Canadá', 'México y EUA', 'Muchos países'], correct: 1 },
+        { q: '¿Qué es la globalización?', options: ['Aislamiento', 'Conexión mundial', 'Guerra', 'Enfermedad'], correct: 1 },
+        { q: '¿Qué es la ONU?', options: ['País', 'Organización mundial', 'Deporte', 'Comida'], correct: 1 },
+        { q: '¿Qué océano baña la costa este de México?', options: ['Pacífico', 'Atlántico/Golfo', 'Índico', 'Ártico'], correct: 1 },
+        { q: '¿Qué es la migración?', options: ['Quedarse', 'Moverse a otro lugar', 'Dormir', 'Comer'], correct: 1 },
+        { q: '¿Quién fue Francisco Villa?', options: ['Presidente', 'Líder revolucionario', 'Artista', 'Deportista'], correct: 1 },
+        { q: '¿Qué es una democracia?', options: ['Dictadura', 'Gobierno del pueblo', 'Monarquía', 'Anarquía'], correct: 1 },
+        { q: '¿Qué significa soberanía?', options: ['Dependencia', 'Independencia y autoridad propia', 'Sumisión', 'Debilidad'], correct: 1 }
+      ],
+      finance: [
+        { q: '¿Qué es inflación?', options: ['Bajar precios', 'Aumento general de precios', 'Estabilidad', 'Riqueza'], correct: 1 },
+        { q: '¿Qué es el interés bancario?', options: ['Regalo', 'Pago por usar dinero', 'Descuento', 'Multa'], correct: 1 },
+        { q: '¿Qué es una cuenta de ahorro?', options: ['Tirar dinero', 'Guardar dinero en banco', 'Gastar', 'Perder'], correct: 1 },
+        { q: '¿Qué es el crédito?', options: ['Regalo', 'Dinero prestado', 'Ahorro', 'Ganancia'], correct: 1 },
+        { q: '¿Por qué es importante el historial crediticio?', options: ['No importa', 'Muestra responsabilidad financiera', 'Es secreto', 'Es malo'], correct: 1 },
+        { q: '¿Qué es un impuesto?', options: ['Regalo', 'Pago obligatorio al gobierno', 'Descuento', 'Premio'], correct: 1 },
+        { q: '¿Para qué sirven los impuestos?', options: ['Nada', 'Servicios públicos', 'Enriquecer políticos', 'Castigar'], correct: 1 },
+        { q: '¿Qué es emprender?', options: ['Descansar', 'Iniciar un negocio', 'Trabajar para otros', 'Renunciar'], correct: 1 },
+        { q: '¿Qué es la oferta y demanda?', options: ['Comida', 'Relación entre productos y consumidores', 'Deporte', 'Arte'], correct: 1 },
+        { q: '¿Qué es un seguro?', options: ['Juego', 'Protección ante riesgos', 'Gasto inútil', 'Moda'], correct: 1 },
+        { q: '¿Qué es el presupuesto familiar?', options: ['Gastar sin control', 'Plan de ingresos y gastos', 'Deudas', 'Lujo'], correct: 1 },
+        { q: '¿Qué es una inversión a largo plazo?', options: ['Gastar rápido', 'Guardar dinero para el futuro', 'Perder dinero', 'Moda'], correct: 1 },
+        { q: '¿Qué es el ahorro para el retiro?', options: ['Innecesario', 'Dinero para cuando seas mayor', 'Gasto', 'Pérdida'], correct: 1 },
+        { q: '¿Qué es un fraude financiero?', options: ['Ahorro', 'Engaño para robar dinero', 'Inversión', 'Negocio'], correct: 1 },
+        { q: '¿Por qué leer términos y condiciones?', options: ['Es aburrido', 'Para entender compromisos', 'No es necesario', 'Es opcional'], correct: 1 }
+      ]
+    };
+
+    // English Vocabulary
+    const ENGLISH_VOCAB = {
+      days: {
+        name: 'Days of the Week',
+        nameEs: 'Días de la Semana',
+        emoji: '📅',
+        words: [
+          { en: 'Monday', es: 'Lunes', emoji: '1️⃣', pron: '/ˈmʌndeɪ/' },
+          { en: 'Tuesday', es: 'Martes', emoji: '2️⃣', pron: '/ˈtuːzdeɪ/' },
+          { en: 'Wednesday', es: 'Miércoles', emoji: '3️⃣', pron: '/ˈwenzdeɪ/' },
+          { en: 'Thursday', es: 'Jueves', emoji: '4️⃣', pron: '/ˈθɜːrzdeɪ/' },
+          { en: 'Friday', es: 'Viernes', emoji: '5️⃣', pron: '/ˈfraɪdeɪ/' },
+          { en: 'Saturday', es: 'Sábado', emoji: '6️⃣', pron: '/ˈsætərdeɪ/' },
+          { en: 'Sunday', es: 'Domingo', emoji: '7️⃣', pron: '/ˈsʌndeɪ/' }
+        ]
+      },
+      numbers: {
+        name: 'Numbers',
+        nameEs: 'Números',
+        emoji: '🔢',
+        words: [
+          { en: 'One', es: 'Uno', emoji: '1️⃣', pron: '/wʌn/' },
+          { en: 'Two', es: 'Dos', emoji: '2️⃣', pron: '/tuː/' },
+          { en: 'Three', es: 'Tres', emoji: '3️⃣', pron: '/θriː/' },
+          { en: 'Four', es: 'Cuatro', emoji: '4️⃣', pron: '/fɔːr/' },
+          { en: 'Five', es: 'Cinco', emoji: '5️⃣', pron: '/faɪv/' },
+          { en: 'Six', es: 'Seis', emoji: '6️⃣', pron: '/sɪks/' },
+          { en: 'Seven', es: 'Siete', emoji: '7️⃣', pron: '/ˈsevən/' },
+          { en: 'Eight', es: 'Ocho', emoji: '8️⃣', pron: '/eɪt/' },
+          { en: 'Nine', es: 'Nueve', emoji: '9️⃣', pron: '/naɪn/' },
+          { en: 'Ten', es: 'Diez', emoji: '🔟', pron: '/ten/' }
+        ]
+      },
+      animals: {
+        name: 'Animals',
+        nameEs: 'Animales',
+        emoji: '🐾',
+        words: [
+          { en: 'Dog', es: 'Perro', emoji: '🐕', pron: '/dɔːɡ/' },
+          { en: 'Cat', es: 'Gato', emoji: '🐱', pron: '/kæt/' },
+          { en: 'Bird', es: 'Pájaro', emoji: '🐦', pron: '/bɜːrd/' },
+          { en: 'Fish', es: 'Pez', emoji: '🐟', pron: '/fɪʃ/' },
+          { en: 'Horse', es: 'Caballo', emoji: '🐴', pron: '/hɔːrs/' },
+          { en: 'Cow', es: 'Vaca', emoji: '🐄', pron: '/kaʊ/' },
+          { en: 'Pig', es: 'Cerdo', emoji: '🐷', pron: '/pɪɡ/' },
+          { en: 'Chicken', es: 'Pollo', emoji: '🐔', pron: '/ˈtʃɪkɪn/' },
+          { en: 'Duck', es: 'Pato', emoji: '🦆', pron: '/dʌk/' },
+          { en: 'Rabbit', es: 'Conejo', emoji: '🐰', pron: '/ˈræbɪt/' }
+        ]
+      },
+      colors: {
+        name: 'Colors',
+        nameEs: 'Colores',
+        emoji: '🌈',
+        words: [
+          { en: 'Red', es: 'Rojo', emoji: '🔴', pron: '/red/' },
+          { en: 'Blue', es: 'Azul', emoji: '🔵', pron: '/bluː/' },
+          { en: 'Green', es: 'Verde', emoji: '🟢', pron: '/ɡriːn/' },
+          { en: 'Yellow', es: 'Amarillo', emoji: '🟡', pron: '/ˈjeloʊ/' },
+          { en: 'Orange', es: 'Naranja', emoji: '🟠', pron: '/ˈɔːrɪndʒ/' },
+          { en: 'Purple', es: 'Morado', emoji: '🟣', pron: '/ˈpɜːrpl/' },
+          { en: 'Pink', es: 'Rosa', emoji: '💗', pron: '/pɪŋk/' },
+          { en: 'Black', es: 'Negro', emoji: '⚫', pron: '/blæk/' },
+          { en: 'White', es: 'Blanco', emoji: '⚪', pron: '/waɪt/' },
+          { en: 'Brown', es: 'Café', emoji: '🟤', pron: '/braʊn/' }
+        ]
+      },
+      family: {
+        name: 'Family',
+        nameEs: 'Familia',
+        emoji: '👨‍👩‍👧‍👦',
+        words: [
+          { en: 'Mother', es: 'Madre', emoji: '👩', pron: '/ˈmʌðər/' },
+          { en: 'Father', es: 'Padre', emoji: '👨', pron: '/ˈfɑːðər/' },
+          { en: 'Sister', es: 'Hermana', emoji: '👧', pron: '/ˈsɪstər/' },
+          { en: 'Brother', es: 'Hermano', emoji: '👦', pron: '/ˈbrʌðər/' },
+          { en: 'Grandmother', es: 'Abuela', emoji: '👵', pron: '/ˈɡrænmʌðər/' },
+          { en: 'Grandfather', es: 'Abuelo', emoji: '👴', pron: '/ˈɡrænfɑːðər/' },
+          { en: 'Aunt', es: 'Tía', emoji: '👩‍🦱', pron: '/ænt/' },
+          { en: 'Uncle', es: 'Tío', emoji: '👨‍🦱', pron: '/ˈʌŋkl/' },
+          { en: 'Cousin', es: 'Primo/a', emoji: '🧒', pron: '/ˈkʌzn/' },
+          { en: 'Baby', es: 'Bebé', emoji: '👶', pron: '/ˈbeɪbi/' }
+        ]
+      },
+      food: {
+        name: 'Food',
+        nameEs: 'Comida',
+        emoji: '🍔',
+        words: [
+          { en: 'Apple', es: 'Manzana', emoji: '🍎', pron: '/ˈæpl/' },
+          { en: 'Banana', es: 'Plátano', emoji: '🍌', pron: '/bəˈnænə/' },
+          { en: 'Bread', es: 'Pan', emoji: '🍞', pron: '/bred/' },
+          { en: 'Cheese', es: 'Queso', emoji: '🧀', pron: '/tʃiːz/' },
+          { en: 'Milk', es: 'Leche', emoji: '🥛', pron: '/mɪlk/' },
+          { en: 'Water', es: 'Agua', emoji: '💧', pron: '/ˈwɔːtər/' },
+          { en: 'Rice', es: 'Arroz', emoji: '🍚', pron: '/raɪs/' },
+          { en: 'Egg', es: 'Huevo', emoji: '🥚', pron: '/eɡ/' },
+          { en: 'Meat', es: 'Carne', emoji: '🥩', pron: '/miːt/' },
+          { en: 'Vegetables', es: 'Verduras', emoji: '🥬', pron: '/ˈvedʒtəblz/' }
+        ]
+      },
+      body: {
+        name: 'Body Parts',
+        nameEs: 'Partes del Cuerpo',
+        emoji: '🧍',
+        words: [
+          { en: 'Head', es: 'Cabeza', emoji: '🗣️', pron: '/hed/' },
+          { en: 'Eyes', es: 'Ojos', emoji: '👀', pron: '/aɪz/' },
+          { en: 'Nose', es: 'Nariz', emoji: '👃', pron: '/noʊz/' },
+          { en: 'Mouth', es: 'Boca', emoji: '👄', pron: '/maʊθ/' },
+          { en: 'Ears', es: 'Orejas', emoji: '👂', pron: '/ɪrz/' },
+          { en: 'Hands', es: 'Manos', emoji: '🙌', pron: '/hændz/' },
+          { en: 'Feet', es: 'Pies', emoji: '🦶', pron: '/fiːt/' },
+          { en: 'Arms', es: 'Brazos', emoji: '💪', pron: '/ɑːrmz/' },
+          { en: 'Legs', es: 'Piernas', emoji: '🦵', pron: '/leɡz/' },
+          { en: 'Hair', es: 'Cabello', emoji: '💇', pron: '/her/' }
+        ]
+      },
+      school: {
+        name: 'School',
+        nameEs: 'Escuela',
+        emoji: '🏫',
+        words: [
+          { en: 'Book', es: 'Libro', emoji: '📚', pron: '/bʊk/' },
+          { en: 'Pencil', es: 'Lápiz', emoji: '✏️', pron: '/ˈpensl/' },
+          { en: 'Teacher', es: 'Maestro/a', emoji: '👩‍🏫', pron: '/ˈtiːtʃər/' },
+          { en: 'Student', es: 'Estudiante', emoji: '🧑‍🎓', pron: '/ˈstuːdnt/' },
+          { en: 'Desk', es: 'Escritorio', emoji: '🪑', pron: '/desk/' },
+          { en: 'Classroom', es: 'Salón', emoji: '🏫', pron: '/ˈklæsruːm/' },
+          { en: 'Notebook', es: 'Cuaderno', emoji: '📓', pron: '/ˈnoʊtbʊk/' },
+          { en: 'Eraser', es: 'Borrador', emoji: '🧽', pron: '/ɪˈreɪsər/' },
+          { en: 'Ruler', es: 'Regla', emoji: '📏', pron: '/ˈruːlər/' },
+          { en: 'Backpack', es: 'Mochila', emoji: '🎒', pron: '/ˈbækpæk/' }
+        ]
+      }
+    };
+
+    // English Quiz Questions
+    const ENGLISH_QUIZ = [
+      { q: 'How do you say "Perro" in English?', options: ['Cat', 'Dog', 'Bird', 'Fish'], correct: 1 },
+      { q: 'What color is "Blue"?', options: ['Rojo', 'Verde', 'Azul', 'Amarillo'], correct: 2 },
+      { q: 'How do you say "Lunes" in English?', options: ['Sunday', 'Monday', 'Tuesday', 'Friday'], correct: 1 },
+      { q: 'What number is "Five"?', options: ['3', '4', '5', '6'], correct: 2 },
+      { q: 'How do you say "Gato" in English?', options: ['Dog', 'Cat', 'Mouse', 'Rabbit'], correct: 1 },
+      { q: 'What does "Mother" mean?', options: ['Padre', 'Hermana', 'Madre', 'Abuela'], correct: 2 },
+      { q: 'How do you say "Manzana" in English?', options: ['Banana', 'Orange', 'Apple', 'Grape'], correct: 2 },
+      { q: 'What day is "Friday"?', options: ['Lunes', 'Martes', 'Jueves', 'Viernes'], correct: 3 },
+      { q: 'What color is "Yellow"?', options: ['Rojo', 'Amarillo', 'Verde', 'Morado'], correct: 1 },
+      { q: 'How do you say "Libro" in English?', options: ['Pencil', 'Book', 'Notebook', 'Desk'], correct: 1 },
+      { q: 'What does "Brother" mean?', options: ['Hermano', 'Hermana', 'Primo', 'Tío'], correct: 0 },
+      { q: 'How do you say "Agua" in English?', options: ['Milk', 'Juice', 'Water', 'Soda'], correct: 2 },
+      { q: 'What number is "Eight"?', options: ['6', '7', '8', '9'], correct: 2 },
+      { q: 'What does "Eyes" mean?', options: ['Nariz', 'Boca', 'Ojos', 'Orejas'], correct: 2 },
+      { q: 'How do you say "Verde" in English?', options: ['Red', 'Blue', 'Green', 'Yellow'], correct: 2 },
+      { q: 'What animal is "Rabbit"?', options: ['Perro', 'Gato', 'Conejo', 'Pato'], correct: 2 },
+      { q: 'What does "Teacher" mean?', options: ['Estudiante', 'Maestro/a', 'Director', 'Doctor'], correct: 1 },
+      { q: 'How do you say "Cabeza" in English?', options: ['Hand', 'Foot', 'Head', 'Arm'], correct: 2 },
+      { q: 'What day is "Wednesday"?', options: ['Lunes', 'Miércoles', 'Viernes', 'Domingo'], correct: 1 },
+      { q: 'What does "Sister" mean?', options: ['Hermano', 'Hermana', 'Prima', 'Tía'], correct: 1 }
+    ];
+
+    // English Sentences
+    const ENGLISH_SENTENCES = [
+      { en: 'The dog is big.', es: 'El perro es grande.', emoji: '🐕' },
+      { en: 'I have two cats.', es: 'Tengo dos gatos.', emoji: '🐱' },
+      { en: 'The apple is red.', es: 'La manzana es roja.', emoji: '🍎' },
+      { en: 'Today is Monday.', es: 'Hoy es lunes.', emoji: '📅' },
+      { en: 'I love my family.', es: 'Amo a mi familia.', emoji: '❤️' },
+      { en: 'The sky is blue.', es: 'El cielo es azul.', emoji: '🌤️' },
+      { en: 'I go to school.', es: 'Voy a la escuela.', emoji: '🏫' },
+      { en: 'My mother is kind.', es: 'Mi madre es amable.', emoji: '👩' },
+      { en: 'I read books.', es: 'Leo libros.', emoji: '📚' },
+      { en: 'The bird can fly.', es: 'El pájaro puede volar.', emoji: '🐦' },
+      { en: 'I drink water.', es: 'Bebo agua.', emoji: '💧' },
+      { en: 'My hands are clean.', es: 'Mis manos están limpias.', emoji: '🙌' },
+      { en: 'The sun is yellow.', es: 'El sol es amarillo.', emoji: '☀️' },
+      { en: 'I have one brother.', es: 'Tengo un hermano.', emoji: '👦' },
+      { en: 'The fish swims.', es: 'El pez nada.', emoji: '🐟' }
+    ];
+
+    // ==================== INITIALIZATION ====================
+    document.addEventListener('DOMContentLoaded', () => {
+      createFloatingEmojis();
+      loadGameState();
+      updateUI();
+      
+      // Login form handler
+      document.getElementById('login-form').addEventListener('submit', handleLogin);
+    });
+
+    function createFloatingEmojis() {
+      const container = document.getElementById('floating-emojis');
+      const emojis = ['⭐', '🌟', '✨', '💫', '🎈', '🎉', '📚', '✏️', '🎨', '🌈', '🦋', '🌸'];
+      
+      for (let i = 0; i < 15; i++) {
+        const emoji = document.createElement('span');
+        emoji.className = 'emoji-float';
+        emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        emoji.style.left = Math.random() * 100 + '%';
+        emoji.style.top = Math.random() * 100 + '%';
+        emoji.style.animationDelay = Math.random() * 4 + 's';
+        emoji.style.fontSize = (1 + Math.random()) + 'rem';
+        emoji.style.opacity = 0.5 + Math.random() * 0.3;
+        container.appendChild(emoji);
+      }
+    }
+
+    // ==================== LOCAL STORAGE ====================
+    function loadGameState() {
+      const saved = localStorage.getItem('aula_interactiva_state');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        gameState = { ...gameState, ...parsed };
+      }
+    }
+
+    function saveGameState() {
+      localStorage.setItem('aula_interactiva_state', JSON.stringify({
+        lives: gameState.lives,
+        stars: gameState.stars,
+        streak: gameState.streak,
+        shield: gameState.shield,
+        gamesCompleted: gameState.gamesCompleted,
+        dailyGames: gameState.dailyGames
+      }));
+    }
+
+    // ==================== UI UPDATES ====================
+    function updateUI() {
+      // Update lives display
+      const livesDisplay = document.getElementById('lives-display');
+      let livesHTML = '';
+      for (let i = 0; i < CONFIG.maxLives; i++) {
+        const isFull = i < gameState.lives;
+        livesHTML += `<span class="heart-beat-animation ${isFull ? 'heart-full' : 'heart-empty'}" style="animation-delay:${i * 0.1}s">${isFull ? '❤️' : '🖤'}</span>`;
+      }
+      livesDisplay.innerHTML = livesHTML;
+
+      // Update stars
+      document.getElementById('stars-count').textContent = gameState.stars;
+      if (document.getElementById('shop-stars')) {
+        document.getElementById('shop-stars').textContent = gameState.stars;
+      }
+
+      // Update streak
+      document.getElementById('streak-count').textContent = gameState.streak;
+      const streakIcon = document.getElementById('streak-icon');
+      if (gameState.streak >= 5) {
+        streakIcon.classList.add('streak-fire');
+      } else {
+        streakIcon.classList.remove('streak-fire');
+      }
+
+      // Update daily progress
+      document.getElementById('daily-progress').textContent = `${Math.min(gameState.dailyGames, 3)}/3`;
+    }
+
+    // ==================== LOGIN ====================
+    function handleLogin(e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value.toUpperCase().trim();
+      const password = document.getElementById('password').value;
+      
+      if (username === CONFIG.username && password === CONFIG.password) {
+        document.getElementById('login-error').classList.add('hidden');
+        showDashboard();
+      } else {
+        document.getElementById('login-error').classList.remove('hidden');
+      }
+    }
+
+    function showDashboard() {
+      document.getElementById('login-screen').classList.add('hidden');
+      document.getElementById('dashboard-screen').classList.remove('hidden');
+      document.getElementById('dashboard-screen').classList.add('slide-in-animation');
+    }
+
+    function logout() {
+      document.getElementById('dashboard-screen').classList.add('hidden');
+      document.getElementById('phase-screen').classList.add('hidden');
+      document.getElementById('english-screen').classList.add('hidden');
+      document.getElementById('game-screen').classList.add('hidden');
+      document.getElementById('login-screen').classList.remove('hidden');
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+    }
+
+    // ==================== TERMS ====================
+    function showTerms() {
+      document.getElementById('terms-modal').classList.remove('hidden');
+    }
+
+    function hideTerms() {
+      document.getElementById('terms-modal').classList.add('hidden');
+    }
+
+    function acceptTerms() {
+      hideTerms();
+    }
+
+    // ==================== NAVIGATION ====================
+    function goBack() {
+      document.getElementById('phase-screen').classList.add('hidden');
+      document.getElementById('english-screen').classList.add('hidden');
+      document.getElementById('vocab-study-screen').classList.add('hidden');
+      document.getElementById('dashboard-screen').classList.remove('hidden');
+      document.getElementById('dashboard-content').classList.remove('hidden');
+    }
+
+    // ==================== PHASES ====================
+    function openPhase(phase) {
+      gameState.currentPhase = phase;
+      
+      const titles = {
+        3: 'FASE 3 - 1° y 2° Grado 📖',
+        4: 'FASE 4 - 3° y 4° Grado 📚',
+        5: 'FASE 5 - 5° y 6° Grado 🎓'
+      };
+      
+      document.getElementById('phase-title').textContent = titles[phase];
+      renderSubjects();
+      
+      document.getElementById('dashboard-screen').classList.add('hidden');
+      document.getElementById('phase-screen').classList.remove('hidden');
+      document.getElementById('phase-screen').classList.add('slide-in-animation');
+    }
+
+    function renderSubjects() {
+      const grid = document.getElementById('subjects-grid');
+      grid.innerHTML = '';
+      
+      Object.entries(SUBJECTS).forEach(([key, subject], index) => {
+        const card = document.createElement('button');
+        card.className = `btn-3d ${subject.class} rounded-2xl p-6 text-left card-hover group`;
+        card.style.animationDelay = `${index * 0.1}s`;
+        card.onclick = () => startGame(key);
+        
+        card.innerHTML = `
+          <div class="flex items-center gap-4">
+            <span class="text-5xl group-hover:scale-110 transition-transform float-animation">${subject.emoji}</span>
+            <div>
+              <h3 class="text-xl font-bold text-gray-800">${subject.name}</h3>
+              <p class="text-gray-600 text-sm">10 preguntas aleatorias</p>
+            </div>
+          </div>
+          <div class="mt-3">
+            <span class="bg-white/50 px-3 py-1 rounded-full text-xs font-medium">🎮 ¡Jugar!</span>
+          </div>
+        `;
+        
+        grid.appendChild(card);
+      });
+    }
+
+    // ==================== ENGLISH ====================
+    let currentEnglishTab = 'study';
+    let currentVocabCategory = null;
+    let currentVocabIndex = 0;
+    let learnedWords = new Set();
+
+    function openEnglish() {
+      document.getElementById('dashboard-screen').classList.add('hidden');
+      document.getElementById('english-screen').classList.remove('hidden');
+      document.getElementById('english-screen').classList.add('slide-in-animation');
+      setEnglishTab('study');
+    }
+
+    function setEnglishTab(tab) {
+      currentEnglishTab = tab;
+      
+      // Update tab buttons
+      document.querySelectorAll('[id^="tab-"]').forEach(btn => {
+        btn.classList.remove('ring-4', 'ring-white');
+      });
+      document.getElementById(`tab-${tab}`).classList.add('ring-4', 'ring-white');
+      
+      // Show content
+      document.getElementById('study-mode').classList.add('hidden');
+      document.getElementById('quiz-mode').classList.add('hidden');
+      document.getElementById('sentences-mode').classList.add('hidden');
+      
+      if (tab === 'study') {
+        renderVocabCategories();
+        document.getElementById('study-mode').classList.remove('hidden');
+      } else if (tab === 'quiz') {
+        startEnglishQuiz();
+        document.getElementById('quiz-mode').classList.remove('hidden');
+      } else if (tab === 'sentences') {
+        renderSentences();
+        document.getElementById('sentences-mode').classList.remove('hidden');
+      }
+    }
+
+    function renderVocabCategories() {
+      const container = document.getElementById('study-mode');
+      container.innerHTML = '';
+      
+      Object.entries(ENGLISH_VOCAB).forEach(([key, category], index) => {
+        const card = document.createElement('button');
+        card.className = 'vocab-category glass-effect rounded-2xl p-4 text-center card-hover';
+        card.style.animationDelay = `${index * 0.1}s`;
+        card.onclick = () => openVocabStudy(key);
+        
+        card.innerHTML = `
+          <span class="text-4xl block mb-2 float-animation">${category.emoji}</span>
+          <h3 class="font-bold text-purple-700">${category.name}</h3>
+          <p class="text-sm text-gray-500">${category.nameEs}</p>
+          <p class="text-xs text-gray-400 mt-1">${category.words.length} palabras</p>
+        `;
+        
+        container.appendChild(card);
+      });
+    }
+
+    function openVocabStudy(categoryKey) {
+      currentVocabCategory = categoryKey;
+      currentVocabIndex = 0;
+      learnedWords = new Set();
+      
+      const category = ENGLISH_VOCAB[categoryKey];
+      document.getElementById('vocab-category-title').textContent = `${category.emoji} ${category.name}`;
+      
+      document.getElementById('english-screen').classList.add('hidden');
+      document.getElementById('vocab-study-screen').classList.remove('hidden');
+      
+      updateVocabCard();
+    }
+
+    function closeVocabStudy() {
+      document.getElementById('vocab-study-screen').classList.add('hidden');
+      document.getElementById('english-screen').classList.remove('hidden');
+    }
+
+    function updateVocabCard() {
+      const category = ENGLISH_VOCAB[currentVocabCategory];
+      const word = category.words[currentVocabIndex];
+      
+      document.getElementById('vocab-emoji').textContent = word.emoji;
+      document.getElementById('vocab-word-en').textContent = word.en;
+      document.getElementById('vocab-word-es').textContent = word.es;
+      document.getElementById('vocab-pronunciation').textContent = word.pron;
+      
+      // Update progress
+      const progress = ((currentVocabIndex + 1) / category.words.length) * 100;
+      document.getElementById('vocab-progress-bar').style.width = progress + '%';
+      document.getElementById('vocab-progress-text').textContent = `${currentVocabIndex + 1} de ${category.words.length}`;
+      document.getElementById('vocab-learned').textContent = `Aprendidos: ${learnedWords.size}`;
+      
+      // Reset card flip
+      document.getElementById('vocab-flashcard').classList.remove('flipped');
+    }
+
+    function flipCard() {
+      document.getElementById('vocab-flashcard').classList.toggle('flipped');
+    }
+
+    function nextVocab() {
+      const category = ENGLISH_VOCAB[currentVocabCategory];
+      if (currentVocabIndex < category.words.length - 1) {
+        currentVocabIndex++;
+        updateVocabCard();
+      }
+    }
+
+    function prevVocab() {
+      if (currentVocabIndex > 0) {
+        currentVocabIndex--;
+        updateVocabCard();
+      }
+    }
+
+    function markLearned() {
+      learnedWords.add(currentVocabIndex);
+      gameState.stars += 1;
+      saveGameState();
+      updateUI();
+      
+      const category = ENGLISH_VOCAB[currentVocabCategory];
+      if (currentVocabIndex < category.words.length - 1) {
+        nextVocab();
+      } else {
+        showConfetti();
+      }
+      
+      document.getElementById('vocab-learned').textContent = `Aprendidos: ${learnedWords.size}`;
+    }
+
+    function startEnglishQuiz() {
+      if (gameState.lives <= 0) {
+        showNoLivesModal();
+        return;
+      }
+      
+      const shuffled = [...ENGLISH_QUIZ].sort(() => Math.random() - 0.5).slice(0, 10);
+      
+      gameState.currentGame = 'englishQuiz';
+      gameState.questions = shuffled;
+      gameState.currentQuestion = 0;
+      gameState.score = 0;
+      
+      renderQuizQuestion();
+    }
+
+    function renderQuizQuestion() {
+      const container = document.getElementById('quiz-mode');
+      const q = gameState.questions[gameState.currentQuestion];
+      
+      container.innerHTML = `
+        <div class="glass-effect rounded-3xl p-6 max-w-2xl mx-auto">
+          <div class="text-center mb-4">
+            <span class="text-sm text-gray-500">Pregunta ${gameState.currentQuestion + 1} de ${gameState.questions.length}</span>
+            <div class="bg-gray-200 rounded-full h-2 mt-2 overflow-hidden">
+              <div class="progress-bar h-full" style="width: ${((gameState.currentQuestion + 1) / gameState.questions.length) * 100}%"></div>
+            </div>
+          </div>
+          
+          <h3 class="text-xl md:text-2xl font-bold text-purple-700 text-center mb-6">${q.q}</h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            ${q.options.map((opt, i) => `
+              <button onclick="answerEnglishQuiz(${i})" 
+                class="option-btn btn-3d bg-gradient-to-r from-purple-400 to-pink-400 text-white font-bold py-4 px-6 rounded-xl text-lg">
+                ${opt}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function answerEnglishQuiz(index) {
+      const q = gameState.questions[gameState.currentQuestion];
+      const buttons = document.querySelectorAll('.option-btn');
+      
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === q.correct) {
+          btn.classList.add('correct');
+        } else if (i === index && index !== q.correct) {
+          btn.classList.add('incorrect');
+        }
+      });
+      
+      if (index === q.correct) {
+        gameState.score++;
+        gameState.streak++;
+        gameState.stars += CONFIG.startsPerCorrect;
+      } else {
+        if (!gameState.shield) {
+          gameState.lives--;
+          gameState.streak = 0;
+        } else {
+          gameState.shield = false;
+        }
+      }
+      
+      saveGameState();
+      updateUI();
+      
+      setTimeout(() => {
+        gameState.currentQuestion++;
+        if (gameState.currentQuestion < gameState.questions.length) {
+          renderQuizQuestion();
+        } else {
+          finishEnglishQuiz();
+        }
+      }, 1000);
+    }
+
+    function finishEnglishQuiz() {
+      const bonusStars = gameState.score >= 7 ? CONFIG.bonusStarsComplete : 0;
+      gameState.stars += bonusStars;
+      gameState.gamesCompleted++;
+      gameState.dailyGames++;
+      
+      // Daily bonus
+      if (gameState.dailyGames === 3) {
+        gameState.stars += 5;
+      }
+      
+      saveGameState();
+      updateUI();
+      
+      showResult(gameState.score, bonusStars);
+    }
+
+    function renderSentences() {
+      const container = document.getElementById('sentences-mode');
+      container.innerHTML = `
+        <div class="grid gap-4 max-w-2xl mx-auto">
+          ${ENGLISH_SENTENCES.map((s, i) => `
+            <div class="glass-effect rounded-2xl p-4 card-hover" style="animation-delay: ${i * 0.1}s">
+              <div class="flex items-start gap-4">
+                <span class="text-4xl">${s.emoji}</span>
+                <div>
+                  <p class="text-xl font-bold text-purple-700">${s.en}</p>
+                  <p class="text-gray-600">${s.es}</p>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    // ==================== GAMES ====================
+    function startGame(subject) {
+      if (gameState.lives <= 0) {
+        showNoLivesModal();
+        return;
+      }
+      
+      gameState.currentSubject = subject;
+      
+      let questions;
+      if (gameState.currentPhase === 3) {
+        questions = PHASE3_QUESTIONS[subject];
+      } else if (gameState.currentPhase === 4) {
+        questions = PHASE4_QUESTIONS[subject];
+      } else {
+        questions = PHASE5_QUESTIONS[subject];
+      }
+      
+      // Shuffle and select 10 questions
+      const shuffled = [...questions].sort(() => Math.random() - 0.5).slice(0, 10);
+      
+      gameState.questions = shuffled;
+      gameState.currentQuestion = 0;
+      gameState.score = 0;
+      gameState.currentGame = 'quiz';
+      
+      document.getElementById('phase-screen').classList.add('hidden');
+      document.getElementById('game-screen').classList.remove('hidden');
+      
+      renderGameQuestion();
+    }
+
+    function renderGameQuestion() {
+      const container = document.getElementById('game-container');
+      const q = gameState.questions[gameState.currentQuestion];
+      const subject = SUBJECTS[gameState.currentSubject];
+      
+      document.getElementById('game-question-num').textContent = `${gameState.currentQuestion + 1}/10`;
+      document.getElementById('game-score').textContent = gameState.score;
+      
+      container.innerHTML = `
+        <div class="text-center">
+          <span class="text-5xl mb-4 block bounce-animation">${subject.emoji}</span>
+          <h3 class="text-lg text-purple-600 font-medium mb-2">${subject.name}</h3>
+          
+          <div class="bg-gradient-to-r from-purple-100 to-pink-100 rounded-2xl p-6 mb-6">
+            <p class="text-xl md:text-2xl font-bold text-gray-800">${q.q}</p>
+          </div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            ${q.options.map((opt, i) => `
+              <button onclick="answerQuestion(${i})" 
+                class="option-btn btn-3d bg-gradient-to-r from-indigo-400 to-purple-400 text-white font-bold py-4 px-6 rounded-xl text-lg hover:from-indigo-500 hover:to-purple-500">
+                ${opt}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function answerQuestion(index) {
+      const q = gameState.questions[gameState.currentQuestion];
+      const buttons = document.querySelectorAll('.option-btn');
+      
+      buttons.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === q.correct) {
+          btn.classList.add('correct');
+        } else if (i === index && index !== q.correct) {
+          btn.classList.add('incorrect');
+        }
+      });
+      
+      if (index === q.correct) {
+        gameState.score++;
+        gameState.streak++;
+        gameState.stars += CONFIG.startsPerCorrect;
+      } else {
+        if (!gameState.shield) {
+          gameState.lives--;
+          gameState.streak = 0;
+        } else {
+          gameState.shield = false;
+        }
+      }
+      
+      saveGameState();
+      updateUI();
+      
+      setTimeout(() => {
+        gameState.currentQuestion++;
+        if (gameState.currentQuestion < gameState.questions.length) {
+          renderGameQuestion();
+        } else {
+          finishGame();
+        }
+      }, 1000);
+    }
+
+    function finishGame() {
+      const bonusStars = gameState.score >= 7 ? CONFIG.bonusStarsComplete : 0;
+      gameState.stars += bonusStars;
+      gameState.gamesCompleted++;
+      gameState.dailyGames++;
+      
+      // Daily bonus
+      if (gameState.dailyGames === 3) {
+        gameState.stars += 5;
+      }
+      
+      saveGameState();
+      updateUI();
+      
+      showResult(gameState.score, bonusStars);
+    }
+
+    function exitGame() {
+      document.getElementById('game-screen').classList.add('hidden');
+      if (gameState.currentPhase) {
+        document.getElementById('phase-screen').classList.remove('hidden');
+      } else {
+        document.getElementById('english-screen').classList.remove('hidden');
+      }
+    }
+
+    // ==================== RESULTS ====================
+    function showResult(score, bonusStars) {
+      const modal = document.getElementById('result-modal');
+      const totalStars = score + bonusStars;
+      
+      let icon, title, message;
+      if (score >= 9) {
+        icon = '🏆';
+        title = '¡INCREÍBLE!';
+        message = '¡Eres un genio! Casi perfecto.';
+      } else if (score >= 7) {
+        icon = '🎉';
+        title = '¡EXCELENTE!';
+        message = '¡Muy bien hecho! Sigue así.';
+      } else if (score >= 5) {
+        icon = '👍';
+        title = '¡BIEN!';
+        message = 'Buen trabajo, sigue practicando.';
+      } else {
+        icon = '💪';
+        title = '¡SIGUE INTENTANDO!';
+        message = 'La práctica hace al maestro.';
+      }
+      
+      document.getElementById('result-icon').textContent = icon;
+      document.getElementById('result-title').textContent = title;
+      document.getElementById('result-message').textContent = message + ` (${score}/10 correctas)`;
+      document.getElementById('result-stars').textContent = totalStars;
+      
+      modal.classList.remove('hidden');
+      
+      if (score >= 7) {
+        showConfetti();
+      }
+    }
+
+    function playAgain() {
+      document.getElementById('result-modal').classList.add('hidden');
+      
+      if (gameState.currentPhase) {
+        startGame(gameState.currentSubject);
+      } else {
+        startEnglishQuiz();
+      }
+    }
+
+    function closeResultAndGoBack() {
+      document.getElementById('result-modal').classList.add('hidden');
+      document.getElementById('game-screen').classList.add('hidden');
+      
+      if (gameState.currentPhase) {
+        document.getElementById('phase-screen').classList.remove('hidden');
+      } else {
+        document.getElementById('english-screen').classList.remove('hidden');
+        setEnglishTab('study');
+      }
+    }
+
+    // ==================== SHOP ====================
+    function openShop() {
+      document.getElementById('shop-stars').textContent = gameState.stars;
+      document.getElementById('shop-modal').classList.remove('hidden');
+    }
+
+    function closeShop() {
+      document.getElementById('shop-modal').classList.add('hidden');
+    }
+
+    function buyItem(item, cost) {
+      const messageEl = document.getElementById('shop-message');
+      
+      if (gameState.stars < cost) {
+        messageEl.textContent = '❌ No tienes suficientes estrellas';
+        messageEl.className = 'mt-4 p-3 rounded-xl text-center font-bold bg-red-100 text-red-700';
+        messageEl.classList.remove('hidden');
+        setTimeout(() => messageEl.classList.add('hidden'), 2000);
+        return;
+      }
+      
+      gameState.stars -= cost;
+      
+      switch(item) {
+        case 'heart1':
+          gameState.lives = Math.min(gameState.lives + 1, CONFIG.maxLives);
+          break;
+        case 'heart3':
+          gameState.lives = Math.min(gameState.lives + 3, CONFIG.maxLives);
+          break;
+        case 'heartFull':
+          gameState.lives = CONFIG.maxLives;
+          break;
+        case 'shield':
+          gameState.shield = true;
+          break;
+      }
+      
+      saveGameState();
+      updateUI();
+      document.getElementById('shop-stars').textContent = gameState.stars;
+      
+      messageEl.textContent = '✅ ¡Compra exitosa!';
+      messageEl.className = 'mt-4 p-3 rounded-xl text-center font-bold bg-green-100 text-green-700';
+      messageEl.classList.remove('hidden');
+      setTimeout(() => messageEl.classList.add('hidden'), 2000);
+    }
+
+    // ==================== NO LIVES ====================
+    function showNoLivesModal() {
+      document.getElementById('no-lives-modal').classList.remove('hidden');
+    }
+
+    function closeNoLivesModal() {
+      document.getElementById('no-lives-modal').classList.add('hidden');
+    }
+
+    function closeNoLivesAndOpenShop() {
+      closeNoLivesModal();
+      openShop();
+    }
+
+    // ==================== CONFETTI ====================
+    function showConfetti() {
+      const colors = ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#9b59b6', '#ff9ff3'];
+      
+      for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.top = '-10px';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.width = '10px';
+        confetti.style.height = '10px';
+        confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+        confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+        
+        document.body.appendChild(confetti);
+        
+        const animation = confetti.animate([
+          { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+          { transform: `translate(${(Math.random() - 0.5) * 200}px, 100vh) rotate(${Math.random() * 720}deg)`, opacity: 0 }
+        ], {
+          duration: 2000 + Math.random() * 1000,
+          easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+        });
+        
+        animation.onfinish = () => confetti.remove();
+      }
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d3c483c67a22bab',t:'MTc3MjA3NTc3MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
